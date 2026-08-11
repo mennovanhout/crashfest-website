@@ -44,66 +44,128 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  /* Ultrawide: the layout stops growing past --cf-max and centres, while
+  /* ── Layout scale ────────────────────────────────────────────────────
+     Upwards: the layout stops growing past --cf-max and centres, while
      section backgrounds, borders and the skewed accents stay full-bleed.
-     --cf-bleed is 0 up to --cf-max, so at <=1920 nothing moves at all; past
-     it every gutter grows by the same amount and the original 80/40/0
-     inset relationship between sections, nav and the stats strip is kept. */
+     --cf-bleed is 0 up to --cf-max, so at <=1920 nothing moves; past it
+     every gutter grows by the same amount and the original 80/40/0 inset
+     relationship between sections, nav and the stats strip is kept.
+     Downwards: gutters and vertical rhythm scale with the viewport and
+     reach their desktop maximum at 1280px, so >=1280 is unchanged too. */
   :root {
     --cf-max: 1920px;
     --cf-bleed: max(0px, calc((100% - var(--cf-max)) / 2));
-    --cf-gutter: calc(80px + var(--cf-bleed));
-    --cf-gutter-nav: calc(40px + var(--cf-bleed));
+    --cf-gutter: calc(clamp(22px, 6.25vw, 80px) + var(--cf-bleed));
+    --cf-gutter-nav: calc(clamp(16px, 3.125vw, 40px) + var(--cf-bleed));
     --cf-gutter-flush: var(--cf-bleed);
+    --cf-section-y: clamp(56px, 7.5vw, 96px);
   }
-  html { scroll-behavior:smooth; }
+  html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; color-scheme:dark; }
   body { margin:0; background:#0b0a09; color:#f4efe7; }
   a { color:#ff7a1a; text-decoration:none; }
   a:hover { color:#ffa15c; }
   ::selection { background:#ff7a1a; color:#14100d; }
+  img, video { max-width:100%; }
+
+  /* ── Scrollbar ───────────────────────────────────────────────────────
+     Square and orange, to match the rest of the design. WebKit/Blink get
+     the richer ::-webkit- treatment; Firefox gets the standard properties.
+     They are mutually exclusive on purpose — when scrollbar-color is set
+     to anything but auto, Chrome 121+ ignores the ::-webkit- rules, so
+     the @supports guard keeps each engine on its better-looking path.
+     Anything supporting neither just keeps its native scrollbar. */
+  @supports not selector(::-webkit-scrollbar) {
+    html { scrollbar-width:thin; scrollbar-color:#ff7a1a #0f0c09; }
+  }
+  ::-webkit-scrollbar { width:13px; height:13px; }
+  ::-webkit-scrollbar-track { background:#0f0c09; border-left:1px solid #241d16; }
+  ::-webkit-scrollbar-thumb { background:#ff7a1a; border:3px solid #0f0c09; }
+  ::-webkit-scrollbar-thumb:hover { background:#ffa15c; }
+  ::-webkit-scrollbar-thumb:active { background:#e03b2f; }
+  ::-webkit-scrollbar-corner { background:#0f0c09; }
   @keyframes cfBob { 0%{transform:translateY(0)} 50%{transform:translateY(-8px)} 100%{transform:translateY(0)} }
   @keyframes cfSheen { 0%{transform:translateX(-140%) skewX(-18deg)} 100%{transform:translateX(420%) skewX(-18deg)} }
   @keyframes cfBlink { 0%,60%{opacity:1} 61%,100%{opacity:.2} }
+
+  /* ── Responsive ──────────────────────────────────────────────────────
+     Type and spacing are fluid via clamp() in the inline styles, so only
+     the fixed multi-column grids need breakpoints. The desktop design
+     lives in inline styles, hence !important to win over it. Nothing
+     above 1100px is touched. */
+  @media (max-width:1100px) {
+    .cf-modes { grid-template-columns:repeat(2,1fr) !important; }
+  }
+  @media (max-width:900px) {
+    .cf-split { grid-template-columns:1fr !important; gap:46px !important; }
+    .cf-shots { grid-template-columns:1fr !important; }
+    .cf-shot  { min-height:min(58vw,320px) !important; }
+    .cf-facts { grid-template-columns:repeat(2,1fr) !important; }
+    .cf-facts > div:nth-child(-n+2) { border-bottom:1px solid #241d16; }
+  }
+  @media (max-width:860px) {
+    /* Two-row nav: logo + Steam CTA, section links underneath. */
+    .cf-nav { flex-wrap:wrap !important; gap:12px !important; padding-top:10px !important; padding-bottom:10px !important; }
+    .cf-nav-links { order:3; width:100%; margin-left:0 !important; justify-content:space-between !important; gap:8px !important; }
+    /* Hero stops being a fixed 760px band and just wraps its content. */
+    .cf-hero { min-height:0 !important; padding:clamp(56px,11vw,88px) 0 clamp(92px,18vw,128px) !important; }
+    .cf-hero-stats { right:var(--cf-gutter); flex-wrap:wrap !important; gap:9px 20px !important; }
+  }
+  @media (max-width:720px) {
+    .cf-modes { grid-template-columns:1fr !important; }
+  }
+  @media (max-width:560px) {
+    .cf-nav-mark { width:32px !important; height:32px !important; }
+    .cf-nav-word { font-size:16px !important; }
+    .cf-nav-cta  { font-size:11px !important; padding:9px 12px 7px !important; }
+    .cf-nav-links { font-size:10px !important; letter-spacing:.08em !important; gap:6px !important; }
+    .cf-seats { grid-template-columns:repeat(2,1fr) !important; }
+    .cf-footer { justify-content:flex-start !important; gap:14px !important; }
+  }
+  @media (max-width:440px) {
+    /* Not enough room for the wordmark and the Steam button on one row —
+       drop the wordmark so the sticky bar stays two rows, not three. */
+    .cf-nav-word { display:none !important; }
+  }
 </style>
 </helmet>
 
 <div style="font-family:'Barlow Condensed',sans-serif; background:#0b0a09; overflow-x:hidden;">
 
   <!-- NAV -->
-  <div style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:14px var(--cf-gutter-nav); background:rgba(11,10,9,.86); backdrop-filter:blur(10px); border-bottom:1px solid #241d16;">
+  <div class="cf-nav" style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:28px; padding:14px var(--cf-gutter-nav); background:rgba(11,10,9,.86); backdrop-filter:blur(10px); border-bottom:1px solid #241d16;">
     <a href="#top" style="display:flex; align-items:center; gap:12px; color:#f4efe7;">
-      <span style="width:38px; height:38px; position:relative; overflow:hidden; background:#14100d; display:flex; align-items:center; justify-content:center;">
+      <span class="cf-nav-mark" style="width:38px; height:38px; flex:none; position:relative; overflow:hidden; background:#14100d; display:flex; align-items:center; justify-content:center;">
         <span style="position:absolute; inset:0; background:#ff7a1a; clip-path:polygon(0 0,100% 0,100% 46%,0 74%);"></span>
         <span style="position:relative; font-family:'Archivo Black',sans-serif; font-size:19px; letter-spacing:-.04em; transform:skewX(-9deg); color:#14100d; margin-top:-4px;">CF</span>
       </span>
-      <span style="font-family:'Archivo Black',sans-serif; font-size:19px; letter-spacing:.02em;">CRASHFEST</span>
+      <span class="cf-nav-word" style="font-family:'Archivo Black',sans-serif; font-size:19px; letter-spacing:.02em;">CRASHFEST</span>
     </a>
-    <div style="display:flex; align-items:center; gap:28px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#a89c8c;">
+    <div class="cf-nav-links" style="display:flex; align-items:center; margin-left:auto; gap:28px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#a89c8c;">
       <a href="#trailer" style="color:#a89c8c;">Trailer</a>
       <a href="#modes" style="color:#a89c8c;">Modes</a>
       <a href="#couch" style="color:#a89c8c;">Couch Co-op</a>
       <a href="#dev" style="color:#a89c8c;">Developer</a>
-      <a href="{{ steamUrl }}" target="_blank" style="background:#ff7a1a; color:#14100d; font-family:'Archivo Black',sans-serif; font-size:13px; letter-spacing:.06em; padding:11px 18px 9px;">GET IT ON STEAM</a>
     </div>
+    <a class="cf-nav-cta" href="{{ steamUrl }}" target="_blank" style="flex:none; background:#ff7a1a; color:#14100d; font-family:'Archivo Black',sans-serif; font-size:13px; letter-spacing:.06em; padding:11px 18px 9px;">GET IT ON STEAM</a>
   </div>
 
   <!-- HERO -->
-  <div id="top" style="position:relative; min-height:760px; display:flex; align-items:center; overflow:hidden; border-bottom:1px solid #241d16;">
+  <div id="top" class="cf-hero" style="position:relative; min-height:760px; display:flex; align-items:center; overflow:hidden; border-bottom:1px solid #241d16;">
     <img src="./assets/shot-sumo.png" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.5;">
     <div style="position:absolute; inset:0; background:linear-gradient(90deg,#0b0a09 12%,rgba(11,10,9,.72) 46%,rgba(11,10,9,.25) 100%);"></div>
     <div style="position:absolute; left:0; right:0; top:38%; height:120px; background:#ff7a1a; opacity:.14; transform:skewY(-5deg);"></div>
-    <div style="position:relative; padding:0 40px 0 var(--cf-gutter); max-width:900px; display:flex; flex-direction:column; gap:26px;">
+    <div style="position:relative; padding:0 var(--cf-gutter); max-width:900px; display:flex; flex-direction:column; gap:clamp(18px,2vw,26px);">
       <div style="display:flex; align-items:center; gap:14px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:#ff7a1a;">
         <span style="width:9px; height:9px; background:#ff7a1a; animation:cfBlink 1.6s infinite steps(1);"></span>
         <span>Local co-op &middot; Steam Remote Play &middot; PC</span>
       </div>
-      <h1 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:126px; line-height:.86; letter-spacing:-.03em; text-transform:uppercase; transform:skewX(-6deg); text-shadow:8px 8px 0 rgba(224,59,47,.5);">Crash<span style="color:#ff7a1a;">fest</span></h1>
-      <p style="margin:0; max-width:620px; font-size:26px; line-height:1.35; color:#d8cfc2; text-wrap:pretty;">Six friends. One couch. One shrinking arena and a very deep hole. Shove, drift and t&#8209;bone your way to the last car standing &mdash; then build the track that decides the rematch.</p>
+      <h1 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(40px,9.85vw,126px); line-height:.86; letter-spacing:-.03em; text-transform:uppercase; transform:skewX(-6deg); text-shadow:.064em .064em 0 rgba(224,59,47,.5);">Crash<span style="color:#ff7a1a;">fest</span></h1>
+      <p style="margin:0; max-width:620px; font-size:clamp(18px,2.03vw,26px); line-height:1.35; color:#d8cfc2; text-wrap:pretty;">Six friends. One couch. One shrinking arena and a very deep hole. Shove, drift and t&#8209;bone your way to the last car standing &mdash; then build the track that decides the rematch.</p>
       <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap; padding-top:8px;">
-        <a href="{{ steamUrl }}" target="_blank" style="position:relative; overflow:hidden; display:flex; align-items:center; gap:14px; background:#ff7a1a; color:#14100d; padding:20px 30px 17px; font-family:'Archivo Black',sans-serif; font-size:24px; letter-spacing:.03em;">
+        <a href="{{ steamUrl }}" target="_blank" style="position:relative; overflow:hidden; display:flex; align-items:center; gap:clamp(9px,1.1vw,14px); background:#ff7a1a; color:#14100d; padding:clamp(15px,1.56vw,20px) clamp(18px,2.34vw,30px) clamp(12px,1.33vw,17px); font-family:'Archivo Black',sans-serif; font-size:clamp(17px,1.88vw,24px); letter-spacing:.03em;">
           <span style="position:absolute; top:0; bottom:0; left:0; width:60px; background:rgba(255,255,255,.35); animation:cfSheen 3.4s infinite;"></span>
           <span style="position:relative;">GET IT ON STEAM</span>
-          <span style="position:relative; font-family:'JetBrains Mono',monospace; font-size:15px; letter-spacing:.1em; background:#14100d; color:#ff7a1a; padding:6px 9px 4px;">{{ price }}</span>
+          <span style="position:relative; font-family:'JetBrains Mono',monospace; font-size:clamp(12px,1.17vw,15px); letter-spacing:.1em; background:#14100d; color:#ff7a1a; padding:6px 9px 4px;">{{ price }}</span>
         </a>
         <div style="font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.12em; color:#8b8172; line-height:1.9; text-transform:uppercase;">
           <div>{{ releaseLine }}</div>
@@ -111,15 +173,15 @@
         </div>
       </div>
     </div>
-    <div style="position:absolute; bottom:26px; left:var(--cf-gutter); display:flex; gap:34px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.18em; color:#6f665a; text-transform:uppercase;">
+    <div class="cf-hero-stats" style="position:absolute; bottom:26px; left:var(--cf-gutter); display:flex; gap:34px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.18em; color:#6f665a; text-transform:uppercase;">
       <span>3 modes</span><span>6 players</span><span>2 arenas</span><span>0 install for friends</span>
     </div>
   </div>
 
   <!-- TRAILER -->
-  <div id="trailer" style="padding:96px var(--cf-gutter); display:flex; flex-direction:column; gap:34px; border-bottom:1px solid #241d16;">
+  <div id="trailer" style="padding:var(--cf-section-y) var(--cf-gutter); display:flex; flex-direction:column; gap:34px; border-bottom:1px solid #241d16;">
     <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:30px; flex-wrap:wrap;">
-      <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:64px; line-height:.9; text-transform:uppercase; transform:skewX(-6deg);">The <span style="color:#ff7a1a;">Trailer</span></h2>
+      <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(34px,5vw,64px); line-height:.9; text-transform:uppercase; transform:skewX(-6deg);">The <span style="color:#ff7a1a;">Trailer</span></h2>
       <span style="font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.16em; color:#8b8172; text-transform:uppercase; padding-bottom:10px;">90 seconds of automotive disagreement</span>
     </div>
     <div style="position:relative; border:1px solid #2c241b; background:#14100d;">
@@ -130,10 +192,10 @@
       <sc-if value="{{ noVideo }}" hint-placeholder-val="{{ true }}">
         <div style="position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px;">
           <img src="./assets/shot-snow.png" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.4;">
-          <div style="position:relative; width:96px; height:96px; border:4px solid #ff7a1a; display:flex; align-items:center; justify-content:center;">
-            <div style="width:0; height:0; border-left:30px solid #ff7a1a; border-top:19px solid transparent; border-bottom:19px solid transparent; margin-left:7px;"></div>
+          <div style="position:relative; width:clamp(56px,7.5vw,96px); height:clamp(56px,7.5vw,96px); border:4px solid #ff7a1a; display:flex; align-items:center; justify-content:center;">
+            <div style="width:0; height:0; border-left:clamp(18px,2.34vw,30px) solid #ff7a1a; border-top:clamp(11px,1.48vw,19px) solid transparent; border-bottom:clamp(11px,1.48vw,19px) solid transparent; margin-left:7px;"></div>
           </div>
-          <div style="position:relative; font-family:'Archivo Black',sans-serif; font-size:30px; text-transform:uppercase; letter-spacing:.02em;">Trailer lands here</div>
+          <div style="position:relative; font-family:'Archivo Black',sans-serif; font-size:clamp(19px,2.34vw,30px); text-transform:uppercase; letter-spacing:.02em; text-align:center;">Trailer lands here</div>
           <div style="position:relative; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; color:#a89c8c; text-transform:uppercase;">Set the video file in Tweaks &rarr; trailerSrc</div>
         </div>
       </sc-if>
@@ -141,38 +203,38 @@
   </div>
 
   <!-- MODES -->
-  <div id="modes" style="padding:96px var(--cf-gutter); display:flex; flex-direction:column; gap:44px; border-bottom:1px solid #241d16;">
-    <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:64px; line-height:.9; text-transform:uppercase; transform:skewX(-6deg);">Three ways to <span style="color:#ff7a1a;">fall out</span></h2>
-    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
+  <div id="modes" style="padding:var(--cf-section-y) var(--cf-gutter); display:flex; flex-direction:column; gap:44px; border-bottom:1px solid #241d16;">
+    <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(34px,5vw,64px); line-height:.9; text-transform:uppercase; transform:skewX(-6deg);">Three ways to <span style="color:#ff7a1a;">fall out</span></h2>
+    <div class="cf-modes" style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
 
       <div style="position:relative; background:#14100d; border:1px solid #2c241b; padding:34px 30px 30px; display:flex; flex-direction:column; gap:14px;">
         <div style="position:absolute; top:0; left:0; right:0; height:5px; background:#e03b2f;"></div>
         <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.2em; color:#e03b2f;">MODE 01</span>
-        <h3 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:36px; text-transform:uppercase;">Race</h3>
-        <p style="margin:0; font-size:19px; line-height:1.45; color:#b7ac9c;">Three laps, no rules worth mentioning. Handbrake into the corner, come out sideways, take somebody's rear bumper with you.</p>
+        <h3 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(27px,2.81vw,36px); text-transform:uppercase;">Race</h3>
+        <p style="margin:0; font-size:clamp(16px,1.48vw,19px); line-height:1.45; color:#b7ac9c;">Three laps, no rules worth mentioning. Handbrake into the corner, come out sideways, take somebody's rear bumper with you.</p>
       </div>
 
       <div style="position:relative; background:#14100d; border:1px solid #2c241b; padding:34px 30px 30px; display:flex; flex-direction:column; gap:14px;">
         <div style="position:absolute; top:0; left:0; right:0; height:5px; background:#ff7a1a;"></div>
         <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.2em; color:#ff7a1a;">MODE 02</span>
-        <h3 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:36px; text-transform:uppercase;">Sumo</h3>
-        <p style="margin:0; font-size:19px; line-height:1.45; color:#b7ac9c;">An orange ring, a bottomless pit in the middle and five people who used to be your friends. Last car in the ring takes the round.</p>
+        <h3 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(27px,2.81vw,36px); text-transform:uppercase;">Sumo</h3>
+        <p style="margin:0; font-size:clamp(16px,1.48vw,19px); line-height:1.45; color:#b7ac9c;">An orange ring, a bottomless pit in the middle and five people who used to be your friends. Last car in the ring takes the round.</p>
       </div>
 
       <div style="position:relative; background:#14100d; border:1px solid #2c241b; padding:34px 30px 30px; display:flex; flex-direction:column; gap:14px;">
         <div style="position:absolute; top:0; left:0; right:0; height:5px; background:#2f7fe0;"></div>
         <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.2em; color:#2f7fe0;">MODE 03</span>
-        <h3 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:36px; text-transform:uppercase;">Track Builder</h3>
-        <p style="margin:0; font-size:19px; line-height:1.45; color:#b7ac9c;">Snap pieces together in the desert or the snowfield, drop the start line and race it thirty seconds later. Saved tracks stay in the rotation.</p>
+        <h3 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(27px,2.81vw,36px); text-transform:uppercase;">Track Builder</h3>
+        <p style="margin:0; font-size:clamp(16px,1.48vw,19px); line-height:1.45; color:#b7ac9c;">Snap pieces together in the desert or the snowfield, drop the start line and race it thirty seconds later. Saved tracks stay in the rotation.</p>
       </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:1.35fr 1fr; gap:24px;">
-      <div style="position:relative; overflow:hidden; border:1px solid #2c241b; min-height:420px;">
+    <div class="cf-shots" style="display:grid; grid-template-columns:1.35fr 1fr; gap:24px;">
+      <div class="cf-shot" style="position:relative; overflow:hidden; border:1px solid #2c241b; min-height:420px;">
         <img src="./assets/shot-sumo.png" alt="Sumo arena in the desert" style="width:100%; height:100%; object-fit:cover; display:block;">
         <div style="position:absolute; left:0; bottom:0; background:#14100d; color:#f4efe7; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; padding:11px 16px 9px; text-transform:uppercase;">Sumo &mdash; Dust Bowl</div>
       </div>
-      <div style="position:relative; overflow:hidden; border:1px solid #2c241b; min-height:420px;">
+      <div class="cf-shot" style="position:relative; overflow:hidden; border:1px solid #2c241b; min-height:420px;">
         <img src="./assets/shot-snow.png" alt="Track builder in the snowfield" style="width:100%; height:100%; object-fit:cover; display:block;">
         <div style="position:absolute; left:0; bottom:0; background:#14100d; color:#f4efe7; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; padding:11px 16px 9px; text-transform:uppercase;">Builder &mdash; Whiteout</div>
       </div>
@@ -180,13 +242,13 @@
   </div>
 
   <!-- COUCH -->
-  <div id="couch" style="position:relative; padding:96px var(--cf-gutter); border-bottom:1px solid #241d16; background:#14100d; overflow:hidden;">
+  <div id="couch" style="position:relative; padding:var(--cf-section-y) var(--cf-gutter); border-bottom:1px solid #241d16; background:#14100d; overflow:hidden;">
     <div style="position:absolute; left:-5%; right:-5%; top:0; height:220px; background:#ff7a1a; opacity:.07; transform:skewY(-4deg);"></div>
-    <div style="position:relative; display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;">
+    <div class="cf-split" style="position:relative; display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;">
       <div style="display:flex; flex-direction:column; gap:22px;">
         <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:64px; line-height:.88; text-transform:uppercase; transform:skewX(-6deg);">Six players.<br><span style="color:#ff7a1a;">One couch.</span></h2>
-        <p style="margin:0; font-size:21px; line-height:1.45; color:#b7ac9c; max-width:520px;">Plug in six controllers and go. Nobody makes an account, nobody downloads anything, nobody waits in a lobby queue. Short on humans? Fill the empty seats with bots on four difficulty settings.</p>
-        <p style="margin:0; font-size:21px; line-height:1.45; color:#b7ac9c; max-width:520px;">Friends on the wrong side of the country still play: Steam Remote Play Together streams the whole party from your machine &mdash; they only need a controller.</p>
+        <p style="margin:0; font-size:clamp(17px,1.64vw,21px); line-height:1.45; color:#b7ac9c; max-width:520px;">Plug in six controllers and go. Nobody makes an account, nobody downloads anything, nobody waits in a lobby queue. Short on humans? Fill the empty seats with bots on four difficulty settings.</p>
+        <p style="margin:0; font-size:clamp(17px,1.64vw,21px); line-height:1.45; color:#b7ac9c; max-width:520px;">Friends on the wrong side of the country still play: Steam Remote Play Together streams the whole party from your machine &mdash; they only need a controller.</p>
         <div style="display:flex; flex-wrap:wrap; gap:10px; padding-top:6px;">
           <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Drop-in / drop-out</span>
           <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Bots, 4 difficulties</span>
@@ -194,7 +256,7 @@
           <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Split-screen free</span>
         </div>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
+      <div class="cf-seats" style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
         <sc-for list="{{ seats }}" as="seat" hint-placeholder-count="6">
           <div style="position:relative; background:#0f0c09; border:1px solid #2c241b; padding:20px 18px; display:flex; flex-direction:column; gap:12px; min-height:132px;">
             <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.2em; color:#6f665a;">{{ seat.slot }}</span>
@@ -208,23 +270,23 @@
   </div>
 
   <!-- FEATURES STRIP -->
-  <div style="display:grid; grid-template-columns:repeat(4,1fr); padding:0 var(--cf-gutter-flush); border-bottom:1px solid #241d16;">
+  <div class="cf-facts" style="display:grid; grid-template-columns:repeat(4,1fr); padding:0 var(--cf-gutter-flush); border-bottom:1px solid #241d16;">
     <sc-for list="{{ facts }}" as="fact" hint-placeholder-count="4">
-      <div style="padding:44px 32px; border-right:1px solid #241d16; display:flex; flex-direction:column; gap:8px;">
-        <span style="font-family:'Archivo Black',sans-serif; font-size:46px; color:#ff7a1a; line-height:1;">{{ fact.big }}</span>
+      <div style="padding:clamp(28px,3.44vw,44px) clamp(20px,2.5vw,32px); border-right:1px solid #241d16; display:flex; flex-direction:column; gap:8px;">
+        <span style="font-family:'Archivo Black',sans-serif; font-size:clamp(34px,3.6vw,46px); color:#ff7a1a; line-height:1;">{{ fact.big }}</span>
         <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; color:#8b8172; text-transform:uppercase;">{{ fact.label }}</span>
       </div>
     </sc-for>
   </div>
 
   <!-- DEVELOPER -->
-  <div id="dev" style="padding:96px var(--cf-gutter); display:grid; grid-template-columns:1fr 1fr; gap:64px; border-bottom:1px solid #241d16;">
+  <div id="dev" class="cf-split" style="padding:var(--cf-section-y) var(--cf-gutter); display:grid; grid-template-columns:1fr 1fr; gap:64px; border-bottom:1px solid #241d16;">
     <div style="display:flex; flex-direction:column; gap:22px;">
       <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.24em; color:#ff7a1a; text-transform:uppercase;">The developer</span>
-      <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:56px; line-height:.92; text-transform:uppercase; transform:skewX(-6deg);">{{ devName }}</h2>
-      <p style="margin:0; font-size:21px; line-height:1.5; color:#b7ac9c; max-width:560px;">CrashFest is a one-person game, built in Unity between coffee and complaints from playtesters. It started as a physics experiment about shoving a low-poly car off a ledge and got out of hand once six controllers were plugged in.</p>
-      <p style="margin:0; font-size:21px; line-height:1.5; color:#b7ac9c; max-width:560px;">I&#8217;m a software engineer, not an artist. So a good chunk of CrashFest was made together with Claude AI &mdash; art direction, shaders, menus, the visual bits I&#8217;d never have drawn on my own &mdash; and the soundtrack comes out of Suno. The code, the physics and every questionable design decision are mine.</p>
-      <p style="margin:0; font-size:21px; line-height:1.5; color:#b7ac9c; max-width:560px;">Bug reports and terrible track designs are equally welcome.</p>
+      <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(30px,4.4vw,56px); line-height:.92; text-transform:uppercase; transform:skewX(-6deg);">{{ devName }}</h2>
+      <p style="margin:0; font-size:clamp(17px,1.64vw,21px); line-height:1.5; color:#b7ac9c; max-width:560px;">CrashFest is a one-person game, built in Unity between coffee and complaints from playtesters. It started as a physics experiment about shoving a low-poly car off a ledge and got out of hand once six controllers were plugged in.</p>
+      <p style="margin:0; font-size:clamp(17px,1.64vw,21px); line-height:1.5; color:#b7ac9c; max-width:560px;">I&#8217;m a software engineer, not an artist. So a good chunk of CrashFest was made together with Claude AI &mdash; art direction, shaders, menus, the visual bits I&#8217;d never have drawn on my own &mdash; and the soundtrack comes out of Suno. The code, the physics and every questionable design decision are mine.</p>
+      <p style="margin:0; font-size:clamp(17px,1.64vw,21px); line-height:1.5; color:#b7ac9c; max-width:560px;">Bug reports and terrible track designs are equally welcome.</p>
 
       <div style="display:flex; flex-direction:column; gap:12px; padding-top:10px; border-top:1px solid #241d16; margin-top:4px; max-width:560px;">
         <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.2em; color:#6f665a; text-transform:uppercase;">Built with</span>
@@ -253,19 +315,19 @@
   </div>
 
   <!-- CTA -->
-  <div style="position:relative; overflow:hidden; padding:110px var(--cf-gutter); display:flex; flex-direction:column; align-items:center; gap:28px; text-align:center; background:#14100d;">
+  <div style="position:relative; overflow:hidden; padding:clamp(64px,8.6vw,110px) var(--cf-gutter); display:flex; flex-direction:column; align-items:center; gap:clamp(20px,2.2vw,28px); text-align:center; background:#14100d;">
     <div style="position:absolute; left:-5%; right:-5%; top:26%; height:200px; background:#ff7a1a; opacity:.12; transform:skewY(-5deg);"></div>
-    <h2 style="position:relative; margin:0; font-family:'Archivo Black',sans-serif; font-size:82px; line-height:.9; text-transform:uppercase; transform:skewX(-6deg); max-width:1100px;">Gather the <span style="color:#ff7a1a;">idiots</span>. Plug in the pads.</h2>
-    <a href="{{ steamUrl }}" target="_blank" style="position:relative; overflow:hidden; display:flex; align-items:center; gap:16px; background:#ff7a1a; color:#14100d; padding:22px 36px 18px; font-family:'Archivo Black',sans-serif; font-size:28px; letter-spacing:.03em; animation:cfBob 3.2s ease-in-out infinite;">
+    <h2 style="position:relative; margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(34px,6.4vw,82px); line-height:.9; text-transform:uppercase; transform:skewX(-6deg); max-width:1100px;">Gather the <span style="color:#ff7a1a;">idiots</span>. Plug in the pads.</h2>
+    <a href="{{ steamUrl }}" target="_blank" style="position:relative; overflow:hidden; display:flex; align-items:center; gap:clamp(10px,1.25vw,16px); background:#ff7a1a; color:#14100d; padding:clamp(16px,1.72vw,22px) clamp(20px,2.81vw,36px) clamp(13px,1.4vw,18px); font-family:'Archivo Black',sans-serif; font-size:clamp(19px,2.19vw,28px); letter-spacing:.03em; animation:cfBob 3.2s ease-in-out infinite;">
       <span style="position:absolute; top:0; bottom:0; left:0; width:70px; background:rgba(255,255,255,.35); animation:cfSheen 3.4s infinite;"></span>
       <span style="position:relative;">GET IT ON STEAM</span>
-      <span style="position:relative; font-family:'JetBrains Mono',monospace; font-size:16px; letter-spacing:.1em; background:#14100d; color:#ff7a1a; padding:7px 10px 5px;">{{ price }}</span>
+      <span style="position:relative; font-family:'JetBrains Mono',monospace; font-size:clamp(12px,1.25vw,16px); letter-spacing:.1em; background:#14100d; color:#ff7a1a; padding:7px 10px 5px;">{{ price }}</span>
     </a>
     <span style="position:relative; font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.16em; color:#8b8172; text-transform:uppercase;">{{ releaseLine }} &middot; Windows</span>
   </div>
 
   <!-- FOOTER -->
-  <div style="display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; padding:30px var(--cf-gutter); border-top:1px solid #241d16; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; color:#6f665a; text-transform:uppercase;">
+  <div class="cf-footer" style="display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; padding:30px var(--cf-gutter); border-top:1px solid #241d16; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; color:#6f665a; text-transform:uppercase;">
     <span>&copy; 2026 {{ devName }} &mdash; CrashFest</span>
     <div style="display:flex; gap:24px;">
       <a href="{{ steamUrl }}" target="_blank" style="color:#6f665a;">Steam</a>
