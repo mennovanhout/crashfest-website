@@ -221,7 +221,7 @@
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;trailerSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;steamUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://store.steampowered.com/&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;discordUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;siteUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;devName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Menno van Hout&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;email&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;hello@mennovanhout.nl&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;price&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;€9,99&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;releaseLine&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Out now on Steam&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;trailerSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;steamUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://store.steampowered.com/&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;discordUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;siteUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;devName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Menno van Hout&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;email&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;hello@mennovanhout.nl&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;price&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;€18,99&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;releaseLine&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Out now on Steam&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 class Component extends DCLogic {
   renderVals() {
     const p = this.props;
@@ -236,7 +236,7 @@ class Component extends DCLogic {
       mailto: "mailto:" + (p.email ?? "hello@mennovanhout.nl"),
       devName: p.devName ?? "Menno van Hout",
       email: p.email ?? "hello@mennovanhout.nl",
-      price: p.price ?? "€9,99",
+      price: p.price ?? "€18,99",
       releaseLine: p.releaseLine ?? "Out now on Steam",
       seats: [
         { slot: "P1", name: "Menno", color: "#e03b2f", state: "Ready", stateColor: "#7ec96a" },
@@ -259,7 +259,7 @@ class Component extends DCLogic {
         { k: "Input", v: "Gamepad, keyboard" },
         { k: "Modes", v: "Race, Sumo, Track Builder" },
         { k: "Languages", v: "English, Nederlands" },
-        { k: "Price", v: p.price ?? "€9,99" }
+        { k: "Price", v: p.price ?? "€18,99" }
       ]
     };
   }
