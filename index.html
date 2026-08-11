@@ -65,7 +65,7 @@
   a { color:#ff7a1a; text-decoration:none; }
   a:hover { color:#ffa15c; }
   ::selection { background:#ff7a1a; color:#14100d; }
-  img, video { max-width:100%; }
+  img, video, iframe { max-width:100%; }
 
   /* ── Scrollbar ───────────────────────────────────────────────────────
      Square and orange, to match the rest of the design. WebKit/Blink get
@@ -190,14 +190,17 @@
       <sc-if value="{{ hasVideo }}" hint-placeholder-val="{{ false }}">
         <video controls="{{ true }}" playsinline="{{ true }}" preload="metadata" poster="./assets/shot-snow.png" src="{{ videoSrc }}" style="display:block; width:100%; aspect-ratio:16/9; object-fit:cover; background:#14100d;"></video>
       </sc-if>
-      <sc-if value="{{ noVideo }}" hint-placeholder-val="{{ true }}">
+      <sc-if value="{{ hasYouTube }}" hint-placeholder-val="{{ true }}">
+        <iframe src="{{ youtubeEmbed }}" title="CrashFest &mdash; official trailer" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen="{{ true }}" style="display:block; width:100%; aspect-ratio:16/9; border:0; background:#14100d;"></iframe>
+      </sc-if>
+      <sc-if value="{{ noVideo }}" hint-placeholder-val="{{ false }}">
         <div style="position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px;">
           <img src="./assets/shot-snow.png" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.4;">
           <div style="position:relative; width:clamp(56px,7.5vw,96px); height:clamp(56px,7.5vw,96px); border:4px solid #ff7a1a; display:flex; align-items:center; justify-content:center;">
             <div style="width:0; height:0; border-left:clamp(18px,2.34vw,30px) solid #ff7a1a; border-top:clamp(11px,1.48vw,19px) solid transparent; border-bottom:clamp(11px,1.48vw,19px) solid transparent; margin-left:7px;"></div>
           </div>
           <div style="position:relative; font-family:'Archivo Black',sans-serif; font-size:clamp(19px,2.34vw,30px); text-transform:uppercase; letter-spacing:.02em; text-align:center;">Trailer lands here</div>
-          <div style="position:relative; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; color:#a89c8c; text-transform:uppercase;">Set the video file in Tweaks &rarr; trailerSrc</div>
+          <div style="position:relative; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; color:#a89c8c; text-transform:uppercase;">Set youtubeId or trailerSrc in Tweaks</div>
         </div>
       </sc-if>
     </div>
@@ -346,15 +349,20 @@
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;trailerSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;steamUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://store.steampowered.com/&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;discordUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;siteUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;devName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Menno van Hout&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;email&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;hello@mennovanhout.nl&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;price&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;€18,99&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;releaseLine&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Out now on Steam&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;youtubeId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;NZIpeUda-Co&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;trailerSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;steamUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://store.steampowered.com/&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;discordUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;siteUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;devName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Menno van Hout&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;email&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;hello@mennovanhout.nl&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;price&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;€18,99&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;releaseLine&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Out now on Steam&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 class Component extends DCLogic {
   renderVals() {
     const p = this.props;
     const videoSrc = (p.trailerSrc ?? "").trim();
+    // A self-hosted file wins if one is set; otherwise fall back to YouTube,
+    // and only show the placeholder when neither is configured.
+    const youtubeId = (p.youtubeId ?? "").trim();
     return {
       videoSrc,
       hasVideo: !!videoSrc,
-      noVideo: !videoSrc,
+      hasYouTube: !videoSrc && !!youtubeId,
+      noVideo: !videoSrc && !youtubeId,
+      youtubeEmbed: "https://www.youtube.com/embed/" + encodeURIComponent(youtubeId),
       steamUrl: p.steamUrl ?? "https://store.steampowered.com/",
       discordUrl: p.discordUrl ?? "#",
       siteUrl: p.siteUrl ?? "#",
