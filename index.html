@@ -3,6 +3,38 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>CrashFest — Six friends. One couch. One very deep hole.</title>
+<meta name="description" content="Six-player local couch co-op car carnage. Race, Sumo and a track builder — shove, drift and t-bone your way to the last car standing. Windows, on Steam.">
+<link rel="canonical" href="https://crashfest.mennovanhout.nl/">
+<meta name="theme-color" content="#ff7a1a">
+
+<link rel="icon" href="./icons/crashfest.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/crashfest-mark-32.png">
+<link rel="icon" type="image/png" sizes="256x256" href="./icons/crashfest-256.png">
+<link rel="apple-touch-icon" href="./icons/crashfest-512.png">
+
+<!-- Open Graph — WhatsApp, Discord, Facebook, LinkedIn, Slack, Telegram, iMessage -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CrashFest">
+<meta property="og:title" content="CrashFest — Six friends. One couch. One very deep hole.">
+<meta property="og:description" content="Six-player local couch co-op car carnage. Race, Sumo and a track builder — shove, drift and t-bone your way to the last car standing. Windows, on Steam.">
+<meta property="og:url" content="https://crashfest.mennovanhout.nl/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://crashfest.mennovanhout.nl/assets/shot-sumo.png">
+<meta property="og:image:secure_url" content="https://crashfest.mennovanhout.nl/assets/shot-sumo.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1985">
+<meta property="og:image:height" content="973">
+<meta property="og:image:alt" content="Low-poly cars shoving each other around the edge of the CrashFest Sumo ring in the Dust Bowl arena.">
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CrashFest — Six friends. One couch. One very deep hole.">
+<meta name="twitter:description" content="Six-player local couch co-op car carnage. Race, Sumo and a track builder — shove, drift and t-bone your way to the last car standing. Windows, on Steam.">
+<meta name="twitter:image" content="https://crashfest.mennovanhout.nl/assets/shot-sumo.png">
+<meta name="twitter:image:alt" content="Low-poly cars shoving each other around the edge of the CrashFest Sumo ring in the Dust Bowl arena.">
+
 <script src="./support.js"></script>
 </head>
 <body>
@@ -12,6 +44,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
+  /* Ultrawide: the layout stops growing past --cf-max and centres, while
+     section backgrounds, borders and the skewed accents stay full-bleed.
+     --cf-bleed is 0 up to --cf-max, so at <=1920 nothing moves at all; past
+     it every gutter grows by the same amount and the original 80/40/0
+     inset relationship between sections, nav and the stats strip is kept. */
+  :root {
+    --cf-max: 1920px;
+    --cf-bleed: max(0px, calc((100% - var(--cf-max)) / 2));
+    --cf-gutter: calc(80px + var(--cf-bleed));
+    --cf-gutter-nav: calc(40px + var(--cf-bleed));
+    --cf-gutter-flush: var(--cf-bleed);
+  }
   html { scroll-behavior:smooth; }
   body { margin:0; background:#0b0a09; color:#f4efe7; }
   a { color:#ff7a1a; text-decoration:none; }
@@ -26,7 +70,7 @@
 <div style="font-family:'Barlow Condensed',sans-serif; background:#0b0a09; overflow-x:hidden;">
 
   <!-- NAV -->
-  <div style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:14px 40px; background:rgba(11,10,9,.86); backdrop-filter:blur(10px); border-bottom:1px solid #241d16;">
+  <div style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:14px var(--cf-gutter-nav); background:rgba(11,10,9,.86); backdrop-filter:blur(10px); border-bottom:1px solid #241d16;">
     <a href="#top" style="display:flex; align-items:center; gap:12px; color:#f4efe7;">
       <span style="width:38px; height:38px; position:relative; overflow:hidden; background:#14100d; display:flex; align-items:center; justify-content:center;">
         <span style="position:absolute; inset:0; background:#ff7a1a; clip-path:polygon(0 0,100% 0,100% 46%,0 74%);"></span>
@@ -48,7 +92,7 @@
     <img src="./assets/shot-sumo.png" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.5;">
     <div style="position:absolute; inset:0; background:linear-gradient(90deg,#0b0a09 12%,rgba(11,10,9,.72) 46%,rgba(11,10,9,.25) 100%);"></div>
     <div style="position:absolute; left:0; right:0; top:38%; height:120px; background:#ff7a1a; opacity:.14; transform:skewY(-5deg);"></div>
-    <div style="position:relative; padding:0 40px 0 80px; max-width:900px; display:flex; flex-direction:column; gap:26px;">
+    <div style="position:relative; padding:0 40px 0 var(--cf-gutter); max-width:900px; display:flex; flex-direction:column; gap:26px;">
       <div style="display:flex; align-items:center; gap:14px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:#ff7a1a;">
         <span style="width:9px; height:9px; background:#ff7a1a; animation:cfBlink 1.6s infinite steps(1);"></span>
         <span>Local co-op &middot; Steam Remote Play &middot; PC</span>
@@ -67,13 +111,13 @@
         </div>
       </div>
     </div>
-    <div style="position:absolute; bottom:26px; left:80px; display:flex; gap:34px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.18em; color:#6f665a; text-transform:uppercase;">
+    <div style="position:absolute; bottom:26px; left:var(--cf-gutter); display:flex; gap:34px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.18em; color:#6f665a; text-transform:uppercase;">
       <span>3 modes</span><span>6 players</span><span>2 arenas</span><span>0 install for friends</span>
     </div>
   </div>
 
   <!-- TRAILER -->
-  <div id="trailer" style="padding:96px 80px; display:flex; flex-direction:column; gap:34px; border-bottom:1px solid #241d16;">
+  <div id="trailer" style="padding:96px var(--cf-gutter); display:flex; flex-direction:column; gap:34px; border-bottom:1px solid #241d16;">
     <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:30px; flex-wrap:wrap;">
       <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:64px; line-height:.9; text-transform:uppercase; transform:skewX(-6deg);">The <span style="color:#ff7a1a;">Trailer</span></h2>
       <span style="font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.16em; color:#8b8172; text-transform:uppercase; padding-bottom:10px;">90 seconds of automotive disagreement</span>
@@ -97,7 +141,7 @@
   </div>
 
   <!-- MODES -->
-  <div id="modes" style="padding:96px 80px; display:flex; flex-direction:column; gap:44px; border-bottom:1px solid #241d16;">
+  <div id="modes" style="padding:96px var(--cf-gutter); display:flex; flex-direction:column; gap:44px; border-bottom:1px solid #241d16;">
     <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:64px; line-height:.9; text-transform:uppercase; transform:skewX(-6deg);">Three ways to <span style="color:#ff7a1a;">fall out</span></h2>
     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
 
@@ -136,7 +180,7 @@
   </div>
 
   <!-- COUCH -->
-  <div id="couch" style="position:relative; padding:96px 80px; border-bottom:1px solid #241d16; background:#14100d; overflow:hidden;">
+  <div id="couch" style="position:relative; padding:96px var(--cf-gutter); border-bottom:1px solid #241d16; background:#14100d; overflow:hidden;">
     <div style="position:absolute; left:-5%; right:-5%; top:0; height:220px; background:#ff7a1a; opacity:.07; transform:skewY(-4deg);"></div>
     <div style="position:relative; display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;">
       <div style="display:flex; flex-direction:column; gap:22px;">
@@ -164,7 +208,7 @@
   </div>
 
   <!-- FEATURES STRIP -->
-  <div style="display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid #241d16;">
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); padding:0 var(--cf-gutter-flush); border-bottom:1px solid #241d16;">
     <sc-for list="{{ facts }}" as="fact" hint-placeholder-count="4">
       <div style="padding:44px 32px; border-right:1px solid #241d16; display:flex; flex-direction:column; gap:8px;">
         <span style="font-family:'Archivo Black',sans-serif; font-size:46px; color:#ff7a1a; line-height:1;">{{ fact.big }}</span>
@@ -174,12 +218,23 @@
   </div>
 
   <!-- DEVELOPER -->
-  <div id="dev" style="padding:96px 80px; display:grid; grid-template-columns:1fr 1fr; gap:64px; border-bottom:1px solid #241d16;">
+  <div id="dev" style="padding:96px var(--cf-gutter); display:grid; grid-template-columns:1fr 1fr; gap:64px; border-bottom:1px solid #241d16;">
     <div style="display:flex; flex-direction:column; gap:22px;">
       <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.24em; color:#ff7a1a; text-transform:uppercase;">The developer</span>
       <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:56px; line-height:.92; text-transform:uppercase; transform:skewX(-6deg);">{{ devName }}</h2>
       <p style="margin:0; font-size:21px; line-height:1.5; color:#b7ac9c; max-width:560px;">CrashFest is a one-person game, built in Unity between coffee and complaints from playtesters. It started as a physics experiment about shoving a low-poly car off a ledge and got out of hand once six controllers were plugged in.</p>
-      <p style="margin:0; font-size:21px; line-height:1.5; color:#b7ac9c; max-width:560px;">Everything you see &mdash; cars, arenas, the builder, the menu music &mdash; came out of that one machine. Bug reports and terrible track designs are equally welcome.</p>
+      <p style="margin:0; font-size:21px; line-height:1.5; color:#b7ac9c; max-width:560px;">I&#8217;m a software engineer, not an artist. So a good chunk of CrashFest was made together with Claude AI &mdash; art direction, shaders, menus, the visual bits I&#8217;d never have drawn on my own &mdash; and the soundtrack comes out of Suno. The code, the physics and every questionable design decision are mine.</p>
+      <p style="margin:0; font-size:21px; line-height:1.5; color:#b7ac9c; max-width:560px;">Bug reports and terrible track designs are equally welcome.</p>
+
+      <div style="display:flex; flex-direction:column; gap:12px; padding-top:10px; border-top:1px solid #241d16; margin-top:4px; max-width:560px;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.2em; color:#6f665a; text-transform:uppercase;">Built with</span>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Unity &mdash; code &amp; physics</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Claude AI &mdash; art &amp; visuals</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Suno AI &mdash; soundtrack</span>
+        </div>
+      </div>
+
       <div style="display:flex; gap:12px; flex-wrap:wrap; padding-top:6px;">
         <a href="{{ mailto }}" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#f4efe7; padding:12px 16px 10px;">Email</a>
         <a href="{{ discordUrl }}" target="_blank" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#f4efe7; padding:12px 16px 10px;">Discord</a>
@@ -188,7 +243,7 @@
     </div>
     <div style="display:flex; flex-direction:column; gap:0; border:1px solid #2c241b; background:#14100d; align-self:start;">
       <div style="padding:16px 22px 14px; border-bottom:1px solid #2c241b; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.18em; color:#6f665a; text-transform:uppercase;">Spec sheet</div>
-      <sc-for list="{{ specs }}" as="spec" hint-placeholder-count="7">
+      <sc-for list="{{ specs }}" as="spec" hint-placeholder-count="9">
         <div style="display:flex; justify-content:space-between; gap:20px; padding:15px 22px; border-bottom:1px solid #201a14; font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.06em;">
           <span style="color:#6f665a; text-transform:uppercase;">{{ spec.k }}</span>
           <span style="color:#f4efe7; text-align:right;">{{ spec.v }}</span>
@@ -198,7 +253,7 @@
   </div>
 
   <!-- CTA -->
-  <div style="position:relative; overflow:hidden; padding:110px 80px; display:flex; flex-direction:column; align-items:center; gap:28px; text-align:center; background:#14100d;">
+  <div style="position:relative; overflow:hidden; padding:110px var(--cf-gutter); display:flex; flex-direction:column; align-items:center; gap:28px; text-align:center; background:#14100d;">
     <div style="position:absolute; left:-5%; right:-5%; top:26%; height:200px; background:#ff7a1a; opacity:.12; transform:skewY(-5deg);"></div>
     <h2 style="position:relative; margin:0; font-family:'Archivo Black',sans-serif; font-size:82px; line-height:.9; text-transform:uppercase; transform:skewX(-6deg); max-width:1100px;">Gather the <span style="color:#ff7a1a;">idiots</span>. Plug in the pads.</h2>
     <a href="{{ steamUrl }}" target="_blank" style="position:relative; overflow:hidden; display:flex; align-items:center; gap:16px; background:#ff7a1a; color:#14100d; padding:22px 36px 18px; font-family:'Archivo Black',sans-serif; font-size:28px; letter-spacing:.03em; animation:cfBob 3.2s ease-in-out infinite;">
@@ -210,7 +265,7 @@
   </div>
 
   <!-- FOOTER -->
-  <div style="display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; padding:30px 80px; border-top:1px solid #241d16; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; color:#6f665a; text-transform:uppercase;">
+  <div style="display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; padding:30px var(--cf-gutter); border-top:1px solid #241d16; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; color:#6f665a; text-transform:uppercase;">
     <span>&copy; 2026 {{ devName }} &mdash; CrashFest</span>
     <div style="display:flex; gap:24px;">
       <a href="{{ steamUrl }}" target="_blank" style="color:#6f665a;">Steam</a>
@@ -259,6 +314,8 @@ class Component extends DCLogic {
         { k: "Input", v: "Gamepad, keyboard" },
         { k: "Modes", v: "Race, Sumo, Track Builder" },
         { k: "Languages", v: "English, Nederlands" },
+        { k: "Art & visuals", v: "Solo dev + Claude AI" },
+        { k: "Music", v: "Suno AI" },
         { k: "Price", v: p.price ?? "€18,99" }
       ]
     };
