@@ -309,7 +309,7 @@
       </div>
 
       <div style="display:flex; gap:12px; flex-wrap:wrap; padding-top:6px;">
-        <a href="{{ mailto }}" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#f4efe7; padding:12px 16px 10px;">Email</a>
+        <a href="{{ contactUrl }}" target="_blank" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#f4efe7; padding:12px 16px 10px;">Contact</a>
         <a href="{{ discordUrl }}" target="_blank" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#f4efe7; padding:12px 16px 10px;">Discord</a>
         <a href="{{ siteUrl }}" target="_blank" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#f4efe7; padding:12px 16px 10px;">Devlog</a>
       </div>
@@ -343,13 +343,13 @@
     <div style="display:flex; gap:24px;">
       <a href="{{ steamUrl }}" target="_blank" style="color:#6f665a;">Steam</a>
       <a href="{{ discordUrl }}" target="_blank" style="color:#6f665a;">Discord</a>
-      <a href="{{ mailto }}" style="color:#6f665a;">Press kit</a>
+      <a href="{{ contactUrl }}" target="_blank" style="color:#6f665a;">Press kit</a>
     </div>
   </div>
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;youtubeId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;NZIpeUda-Co&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;trailerSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;steamUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://store.steampowered.com/&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;discordUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;siteUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;devName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Menno van Hout&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;email&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;hello@mennovanhout.nl&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;price&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;€18,99&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;releaseLine&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Out now on Steam&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;youtubeId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;NZIpeUda-Co&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;trailerSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;steamUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://store.steampowered.com/&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;discordUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://discord.gg/H99fuk3yuH&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;siteUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;devName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Menno van Hout&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;contactUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://mennovanhout.nl/contact&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;price&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;€18,99&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;releaseLine&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Out now on Steam&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 class Component extends DCLogic {
   renderVals() {
     const p = this.props;
@@ -364,11 +364,10 @@ class Component extends DCLogic {
       noVideo: !videoSrc && !youtubeId,
       youtubeEmbed: "https://www.youtube.com/embed/" + encodeURIComponent(youtubeId),
       steamUrl: p.steamUrl ?? "https://store.steampowered.com/",
-      discordUrl: p.discordUrl ?? "#",
+      discordUrl: p.discordUrl ?? "https://discord.gg/H99fuk3yuH",
       siteUrl: p.siteUrl ?? "#",
-      mailto: "mailto:" + (p.email ?? "hello@mennovanhout.nl"),
+      contactUrl: p.contactUrl ?? "https://mennovanhout.nl/contact",
       devName: p.devName ?? "Menno van Hout",
-      email: p.email ?? "hello@mennovanhout.nl",
       price: p.price ?? "€18,99",
       releaseLine: p.releaseLine ?? "Out now on Steam",
       seats: [
