@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>CrashFest — Six friends. One couch. One very deep hole.</title>
-<meta name="description" content="Six-player local couch co-op car carnage. Race, Sumo and a track builder — shove, drift and t-bone your way to the last car standing. Windows, on Steam.">
+<meta name="description" content="Six-player couch co-op car carnage. Race, Sumo, Bomb Tag and a track builder — shove, drift and t-bone your way to the last car standing. Windows, on Steam.">
 <link rel="canonical" href="https://crashfest.mennovanhout.nl/">
 <meta name="theme-color" content="#ff7a1a">
 
@@ -18,7 +18,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CrashFest">
 <meta property="og:title" content="CrashFest — Six friends. One couch. One very deep hole.">
-<meta property="og:description" content="Six-player local couch co-op car carnage. Race, Sumo and a track builder — shove, drift and t-bone your way to the last car standing. Windows, on Steam.">
+<meta property="og:description" content="Six-player couch co-op car carnage. Race, Sumo, Bomb Tag and a track builder — shove, drift and t-bone your way to the last car standing. Windows, on Steam.">
 <meta property="og:url" content="https://crashfest.mennovanhout.nl/">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://crashfest.mennovanhout.nl/assets/shot-sumo.png">
@@ -31,7 +31,7 @@
 <!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="CrashFest — Six friends. One couch. One very deep hole.">
-<meta name="twitter:description" content="Six-player local couch co-op car carnage. Race, Sumo and a track builder — shove, drift and t-bone your way to the last car standing. Windows, on Steam.">
+<meta name="twitter:description" content="Six-player couch co-op car carnage. Race, Sumo, Bomb Tag and a track builder — shove, drift and t-bone your way to the last car standing. Windows, on Steam.">
 <meta name="twitter:image" content="https://crashfest.mennovanhout.nl/assets/shot-sumo.png">
 <meta name="twitter:image:alt" content="Low-poly cars shoving each other around the edge of the CrashFest Sumo ring in the Dust Bowl arena.">
 
@@ -92,7 +92,8 @@
      the fixed multi-column grids need breakpoints. The desktop design
      lives in inline styles, hence !important to win over it. Nothing
      above 1100px is touched. */
-  @media (max-width:1100px) {
+  @media (max-width:1500px) {
+    /* Four across only while the cards stay wide enough to read; 2x2 below. */
     .cf-modes { grid-template-columns:repeat(2,1fr) !important; }
   }
   @media (max-width:900px) {
@@ -174,7 +175,7 @@
       </div>
     </div>
     <div class="cf-hero-stats" style="position:absolute; bottom:26px; left:var(--cf-gutter); display:flex; gap:34px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.18em; color:#6f665a; text-transform:uppercase;">
-      <span>3 modes</span><span>6 players</span><span>2 arenas</span><span>0 install for friends</span>
+      <span>4 modes</span><span>6 players</span><span>2 arenas</span><span>0 install for friends</span>
     </div>
   </div>
 
@@ -204,8 +205,8 @@
 
   <!-- MODES -->
   <div id="modes" style="padding:var(--cf-section-y) var(--cf-gutter); display:flex; flex-direction:column; gap:44px; border-bottom:1px solid #241d16;">
-    <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(34px,5vw,64px); line-height:.9; text-transform:uppercase; transform:skewX(-6deg);">Three ways to <span style="color:#ff7a1a;">fall out</span></h2>
-    <div class="cf-modes" style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
+    <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(34px,5vw,64px); line-height:.9; text-transform:uppercase; transform:skewX(-6deg);">Four ways to <span style="color:#ff7a1a;">fall out</span></h2>
+    <div class="cf-modes" style="display:grid; grid-template-columns:repeat(4,1fr); gap:24px;">
 
       <div style="position:relative; background:#14100d; border:1px solid #2c241b; padding:34px 30px 30px; display:flex; flex-direction:column; gap:14px;">
         <div style="position:absolute; top:0; left:0; right:0; height:5px; background:#e03b2f;"></div>
@@ -222,8 +223,15 @@
       </div>
 
       <div style="position:relative; background:#14100d; border:1px solid #2c241b; padding:34px 30px 30px; display:flex; flex-direction:column; gap:14px;">
+        <div style="position:absolute; top:0; left:0; right:0; height:5px; background:#b06ae0;"></div>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.2em; color:#b06ae0;">MODE 03</span>
+        <h3 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(27px,2.81vw,36px); text-transform:uppercase;">Bomb Tag</h3>
+        <p style="margin:0; font-size:clamp(16px,1.48vw,19px); line-height:1.45; color:#b7ac9c;">A live bomb, a very short fuse and one car holding it. Bump somebody to pass it on &mdash; whoever&#8217;s still carrying when it blows is out. Rounds run until someone hits the lobby&#8217;s score.</p>
+      </div>
+
+      <div style="position:relative; background:#14100d; border:1px solid #2c241b; padding:34px 30px 30px; display:flex; flex-direction:column; gap:14px;">
         <div style="position:absolute; top:0; left:0; right:0; height:5px; background:#2f7fe0;"></div>
-        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.2em; color:#2f7fe0;">MODE 03</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.2em; color:#2f7fe0;">MODE 04</span>
         <h3 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(27px,2.81vw,36px); text-transform:uppercase;">Track Builder</h3>
         <p style="margin:0; font-size:clamp(16px,1.48vw,19px); line-height:1.45; color:#b7ac9c;">Snap pieces together in the desert or the snowfield, drop the start line and race it thirty seconds later. Saved tracks stay in the rotation.</p>
       </div>
@@ -365,7 +373,7 @@ class Component extends DCLogic {
       ],
       facts: [
         { big: "6", label: "Players, local" },
-        { big: "3", label: "Modes" },
+        { big: "4", label: "Modes" },
         { big: "∞", label: "Player-built tracks" },
         { big: "0", label: "Accounts required" }
       ],
@@ -374,7 +382,7 @@ class Component extends DCLogic {
         { k: "Engine", v: "Unity" },
         { k: "Platform", v: "Windows (PC)" },
         { k: "Input", v: "Gamepad, keyboard" },
-        { k: "Modes", v: "Race, Sumo, Track Builder" },
+        { k: "Modes", v: "Race, Sumo, Bomb Tag, Builder" },
         { k: "Languages", v: "English, Nederlands" },
         { k: "Art & visuals", v: "Solo dev + Claude AI" },
         { k: "Music", v: "Suno AI" },
