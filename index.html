@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>CrashFest — Six friends. One couch. One very deep hole.</title>
-<meta name="description" content="Six-player couch co-op car carnage, coming soon to Steam for Windows. Race, Sumo, Bomb Tag, Turf and a track builder — shove, drift and t-bone your way to the last car standing.">
+<meta name="description" content="One copy, six players — CrashFest is couch co-op car carnage coming soon to Steam. Race, Sumo, Bomb Tag, Turf and a track builder; friends join free on Remote Play.">
 <link rel="canonical" href="https://crashfest.mennovanhout.nl/">
 <meta name="theme-color" content="#ff7a1a">
 
@@ -18,7 +18,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CrashFest">
 <meta property="og:title" content="CrashFest — Six friends. One couch. One very deep hole.">
-<meta property="og:description" content="Six-player couch co-op car carnage, coming soon to Steam for Windows. Race, Sumo, Bomb Tag, Turf and a track builder — shove, drift and t-bone your way to the last car standing.">
+<meta property="og:description" content="One copy, six players — CrashFest is couch co-op car carnage coming soon to Steam. Race, Sumo, Bomb Tag, Turf and a track builder; friends join free on Remote Play.">
 <meta property="og:url" content="https://crashfest.mennovanhout.nl/">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://crashfest.mennovanhout.nl/assets/shot-sumo.png">
@@ -31,7 +31,7 @@
 <!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="CrashFest — Six friends. One couch. One very deep hole.">
-<meta name="twitter:description" content="Six-player couch co-op car carnage, coming soon to Steam for Windows. Race, Sumo, Bomb Tag, Turf and a track builder — shove, drift and t-bone your way to the last car standing.">
+<meta name="twitter:description" content="One copy, six players — CrashFest is couch co-op car carnage coming soon to Steam. Race, Sumo, Bomb Tag, Turf and a track builder; friends join free on Remote Play.">
 <meta name="twitter:image" content="https://crashfest.mennovanhout.nl/assets/shot-sumo.png">
 <meta name="twitter:image:alt" content="Low-poly cars shoving each other around the edge of the CrashFest Sumo ring in the Dust Bowl arena.">
 
@@ -123,10 +123,21 @@
     .cf-hero { min-height:0 !important; padding:clamp(56px,11vw,88px) 0 clamp(92px,18vw,128px) !important; }
     .cf-hero-stats { right:var(--cf-gutter); flex-wrap:wrap !important; gap:9px 20px !important; }
   }
+  /* ── One-copy numbers ────────────────────────────────────────────────
+     Three cells divided by hairlines; the dividers flip from vertical to
+     horizontal when the row becomes a column. */
+  /* auto-fit, not repeat(3): the per-player cell drops out when the price
+     can't be parsed, and the remaining two should still fill the box. */
+  .cf-onecopy { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); width:100%; max-width:1040px; border:1px solid #2c241b; background:#14100d; }
+  .cf-onecopy > div { padding:clamp(24px,2.8vw,38px) clamp(18px,2vw,28px); border-left:1px solid #241d16; display:flex; flex-direction:column; gap:9px; align-items:center; }
+  .cf-onecopy > div:first-child { border-left:0; }
   @media (max-width:720px) {
     .cf-modes { grid-template-columns:1fr !important; }
     /* A span-2 card on a single-column grid would invent a second column. */
     .cf-mode:nth-child(5) { grid-column:span 1; }
+    .cf-onecopy { grid-template-columns:1fr; }
+    .cf-onecopy > div { border-left:0; border-top:1px solid #241d16; }
+    .cf-onecopy > div:first-child { border-top:0; }
   }
   @media (max-width:560px) {
     .cf-nav-mark { width:32px !important; height:32px !important; }
@@ -196,6 +207,10 @@
           </sc-if>
         </div>
       </div>
+      <a href="#onecopy" style="display:flex; align-items:center; gap:clamp(12px,1.4vw,18px); flex-wrap:wrap; align-self:flex-start; background:rgba(20,16,13,.72); border-left:5px solid #ff7a1a; padding:clamp(12px,1.25vw,16px) clamp(15px,1.56vw,20px) clamp(10px,1.1vw,14px); color:#f4efe7;">
+        <span style="font-family:'Archivo Black',sans-serif; font-size:clamp(15px,1.56vw,20px); letter-spacing:.02em; text-transform:uppercase;">One copy. <span style="color:#ff7a1a;">Everybody plays.</span></span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#a89c8c;">Friends join free on Remote Play</span>
+      </a>
     </div>
     <div class="cf-hero-stats" style="position:absolute; bottom:26px; left:var(--cf-gutter); display:flex; gap:34px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.18em; color:#6f665a; text-transform:uppercase;">
       <span>5 modes</span><span>6 players</span><span>2 arenas</span><span>0 install for friends</span>
@@ -310,6 +325,36 @@
     </div>
   </div>
 
+  <!-- ONE COPY -->
+  <div id="onecopy" style="position:relative; overflow:hidden; padding:var(--cf-section-y) var(--cf-gutter); border-bottom:1px solid #241d16;">
+    <div style="position:absolute; left:-5%; right:-5%; top:30%; height:220px; background:#ff7a1a; opacity:.1; transform:skewY(-5deg);"></div>
+    <div style="position:relative; display:flex; flex-direction:column; align-items:center; text-align:center; gap:clamp(20px,2.2vw,30px);">
+      <div style="display:flex; align-items:center; gap:14px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:#ff7a1a;">
+        <span style="width:9px; height:9px; background:#ff7a1a;"></span>
+        <span>Somebody buys it once</span>
+      </div>
+      <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(34px,6.4vw,82px); line-height:.9; text-transform:uppercase; transform:skewX(-6deg); max-width:1100px;">One copy. <span style="color:#ff7a1a;">Everybody plays.</span></h2>
+      <p style="margin:0; max-width:820px; font-size:clamp(17px,1.72vw,22px); line-height:1.45; color:#d8cfc2; text-wrap:pretty;">Nobody else pays a cent. Six controllers into one PC and the whole room is in. Friends who aren&#8217;t in the room join through Steam Remote Play Together &mdash; your machine runs the game and streams it to them, so they never buy CrashFest and never install it. They need Steam and a gamepad, and that&#8217;s the entire shopping list.</p>
+      <div class="cf-onecopy">
+        <div>
+          <span style="font-family:'Archivo Black',sans-serif; font-size:clamp(40px,4.4vw,58px); color:#ff7a1a; line-height:1;">1</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; color:#8b8172; text-transform:uppercase;">Copy to buy</span>
+        </div>
+        <div>
+          <span style="font-family:'Archivo Black',sans-serif; font-size:clamp(40px,4.4vw,58px); color:#ff7a1a; line-height:1;">6</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; color:#8b8172; text-transform:uppercase;">Players it covers</span>
+        </div>
+        <sc-if value="{{ hasSplit }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <span style="font-family:'Archivo Black',sans-serif; font-size:clamp(40px,4.4vw,58px); color:#ff7a1a; line-height:1;">{{ perPlayer }}</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; color:#8b8172; text-transform:uppercase;">Each, split six ways</span>
+          </div>
+        </sc-if>
+      </div>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; color:#6f665a; text-transform:uppercase;">No second copy &middot; No per-seat pricing &middot; No install for friends</span>
+    </div>
+  </div>
+
   <!-- FEATURES STRIP -->
   <div class="cf-facts" style="display:grid; grid-template-columns:repeat(4,1fr); padding:0 var(--cf-gutter-flush); border-bottom:1px solid #241d16;">
     <sc-for list="{{ facts }}" as="fact" hint-placeholder-count="4">
@@ -346,7 +391,7 @@
     </div>
     <div style="display:flex; flex-direction:column; gap:0; border:1px solid #2c241b; background:#14100d; align-self:start;">
       <div style="padding:16px 22px 14px; border-bottom:1px solid #2c241b; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.18em; color:#6f665a; text-transform:uppercase;">Spec sheet</div>
-      <sc-for list="{{ specs }}" as="spec" hint-placeholder-count="10">
+      <sc-for list="{{ specs }}" as="spec" hint-placeholder-count="11">
         <div style="display:flex; justify-content:space-between; gap:20px; padding:15px 22px; border-bottom:1px solid #201a14; font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.06em;">
           <span style="color:#6f665a; text-transform:uppercase;">{{ spec.k }}</span>
           <span style="color:#f4efe7; text-align:right;">{{ spec.v }}</span>
@@ -387,7 +432,7 @@
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;youtubeId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;NZIpeUda-Co&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;trailerSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;steamUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;discordUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://discord.gg/H99fuk3yuH&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;siteUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;devName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Menno van Hout&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;contactUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://mennovanhout.nl/contact&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;price&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;€18,99&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;releaseLine&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Coming soon to Steam&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;youtubeId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;NZIpeUda-Co&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;trailerSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;steamUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;discordUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://discord.gg/H99fuk3yuH&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;siteUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;devName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Menno van Hout&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;contactUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://mennovanhout.nl/contact&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;price&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;€19,99&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;releaseLine&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Coming soon to Steam&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 class Component extends DCLogic {
   renderVals() {
     const p = this.props;
@@ -403,6 +448,15 @@ class Component extends DCLogic {
     const hasSteam = !!steamUrl;
     const discordUrl = p.discordUrl ?? "https://discord.gg/H99fuk3yuH";
     const releaseLine = p.releaseLine ?? "Coming soon to Steam";
+    // The per-player figure on the "one copy" band is derived from the price
+    // prop, so it can never drift out of sync with it. Currency symbol is
+    // whatever sits in front of the digits; if the amount can't be parsed
+    // (blank price, "TBA"), hasSplit hides that third number instead of
+    // printing nonsense.
+    const price = (p.price ?? "€19,99").trim();
+    const priceAmount = parseFloat(price.replace(/[^\d.,]/g, "").replace(",", "."));
+    const symbol = (/^[^\d]+/.exec(price) || [""])[0].trim();
+    const hasSplit = isFinite(priceAmount) && priceAmount > 0;
     return {
       videoSrc,
       hasVideo: !!videoSrc,
@@ -418,7 +472,9 @@ class Component extends DCLogic {
       siteUrl: p.siteUrl ?? "#",
       contactUrl: p.contactUrl ?? "https://mennovanhout.nl/contact",
       devName: p.devName ?? "Menno van Hout",
-      price: p.price ?? "€18,99",
+      price,
+      hasSplit,
+      perPlayer: hasSplit ? symbol + (priceAmount / 6).toFixed(2).replace(".", ",") : "",
       releaseLine,
       seats: [
         { slot: "P1", name: "Menno", color: "#e03b2f", state: "Ready", stateColor: "#7ec96a" },
@@ -432,7 +488,7 @@ class Component extends DCLogic {
         { big: "6", label: "Players, local" },
         { big: "5", label: "Modes" },
         { big: "∞", label: "Player-built tracks" },
-        { big: "0", label: "Accounts required" }
+        { big: "0", label: "Accounts on the couch" }
       ],
       specs: [
         { k: "Release", v: releaseLine },
@@ -444,7 +500,8 @@ class Component extends DCLogic {
         { k: "Languages", v: "English, Nederlands" },
         { k: "Art & visuals", v: "Solo dev + Claude AI" },
         { k: "Music", v: "Suno AI" },
-        { k: "Price", v: p.price ?? "€18,99" }
+        { k: "Price", v: price },
+        { k: "Extra copies", v: "None — friends play free" }
       ]
     };
   }
