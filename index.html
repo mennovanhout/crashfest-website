@@ -21,19 +21,19 @@
 <meta property="og:description" content="One copy, six players — CrashFest is couch co-op car carnage coming soon to Steam. Race, Sumo, Bomb Tag, Turf and a track builder; friends join free on Remote Play.">
 <meta property="og:url" content="https://crashfest.mennovanhout.nl/">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://crashfest.mennovanhout.nl/assets/shot-sumo.png">
-<meta property="og:image:secure_url" content="https://crashfest.mennovanhout.nl/assets/shot-sumo.png">
-<meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1985">
-<meta property="og:image:height" content="973">
-<meta property="og:image:alt" content="Low-poly cars shoving each other around the edge of the CrashFest Sumo ring in the Dust Bowl arena.">
+<meta property="og:image" content="https://crashfest.mennovanhout.nl/assets/og-cover.jpg">
+<meta property="og:image:secure_url" content="https://crashfest.mennovanhout.nl/assets/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Six low-poly cars racing a desert track in CrashFest, power-up crates scattered across the road and the six-player scoreboard down the left.">
 
 <!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="CrashFest — Six friends. One couch. One very deep hole.">
 <meta name="twitter:description" content="One copy, six players — CrashFest is couch co-op car carnage coming soon to Steam. Race, Sumo, Bomb Tag, Turf and a track builder; friends join free on Remote Play.">
-<meta name="twitter:image" content="https://crashfest.mennovanhout.nl/assets/shot-sumo.png">
-<meta name="twitter:image:alt" content="Low-poly cars shoving each other around the edge of the CrashFest Sumo ring in the Dust Bowl arena.">
+<meta name="twitter:image" content="https://crashfest.mennovanhout.nl/assets/og-cover.jpg">
+<meta name="twitter:image:alt" content="Six low-poly cars racing a desert track in CrashFest, power-up crates scattered across the road and the six-player scoreboard down the left.">
 
 <!-- Fathom - beautiful, simple website analytics -->
 <script src="https://cdn.usefathom.com/script.js" data-site="APXZOTAF" defer></script>
@@ -94,6 +94,20 @@
      both keeps its end frame applied forever, which would outrank the
      hover transforms below. The two properties compose instead of fight. */
   @keyframes cfRise { from { opacity:0; translate:0 28px; } to { opacity:1; translate:0 0; } }
+
+  /* ── Clipping ────────────────────────────────────────────────────────
+     `overflow:hidden` makes an element a scroll container, and on a
+     wrapper that never scrolls that costs two things: position:sticky
+     inside it stops sticking to the viewport, and view() timelines below
+     it resolve against that dead box instead of the page, so scroll
+     reveals never run. `clip` clips the skewed full-bleed accents with
+     none of that. Older engines fall back to the old behaviour. */
+  .cf-page { overflow-x:clip; }
+  .cf-clip { overflow:clip; }
+  @supports not (overflow:clip) {
+    .cf-page { overflow-x:hidden; }
+    .cf-clip { overflow:hidden; }
+  }
 
   /* ── Interaction ─────────────────────────────────────────────────────
      Everything in this block is decoration: hover and press states, and
@@ -260,7 +274,7 @@
 </style>
 </helmet>
 
-<div style="font-family:'Barlow Condensed',sans-serif; background:#0b0a09; overflow-x:hidden;">
+<div class="cf-page" style="font-family:'Barlow Condensed',sans-serif; background:#0b0a09;">
 
   <!-- NAV -->
   <div class="cf-nav" style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:28px; padding:14px var(--cf-gutter-nav); background:rgba(11,10,9,.86); backdrop-filter:blur(10px); border-bottom:1px solid #241d16;">
@@ -404,7 +418,7 @@
   </div>
 
   <!-- POWER-UPS -->
-  <div id="arsenal" style="position:relative; overflow:hidden; padding:var(--cf-section-y) var(--cf-gutter); display:flex; flex-direction:column; gap:clamp(30px,3.4vw,44px); border-bottom:1px solid #241d16; background:#0f0c09;">
+  <div id="arsenal" class="cf-clip" style="position:relative; padding:var(--cf-section-y) var(--cf-gutter); display:flex; flex-direction:column; gap:clamp(30px,3.4vw,44px); border-bottom:1px solid #241d16; background:#0f0c09;">
     <div style="position:absolute; left:-5%; right:-5%; top:0; height:200px; background:#ff7a1a; opacity:.06; transform:skewY(-4deg);"></div>
 
     <div style="position:relative; display:flex; align-items:flex-end; justify-content:space-between; gap:30px; flex-wrap:wrap;">
@@ -456,7 +470,7 @@
   </div>
 
   <!-- COUCH -->
-  <div id="couch" style="position:relative; padding:var(--cf-section-y) var(--cf-gutter); border-bottom:1px solid #241d16; background:#14100d; overflow:hidden;">
+  <div id="couch" class="cf-clip" style="position:relative; padding:var(--cf-section-y) var(--cf-gutter); border-bottom:1px solid #241d16; background:#14100d;">
     <div style="position:absolute; left:-5%; right:-5%; top:0; height:220px; background:#ff7a1a; opacity:.07; transform:skewY(-4deg);"></div>
     <div class="cf-split" style="position:relative; display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;">
       <div style="display:flex; flex-direction:column; gap:22px;">
@@ -484,7 +498,7 @@
   </div>
 
   <!-- ONE COPY -->
-  <div id="onecopy" style="position:relative; overflow:hidden; padding:var(--cf-section-y) var(--cf-gutter); border-bottom:1px solid #241d16;">
+  <div id="onecopy" class="cf-clip" style="position:relative; padding:var(--cf-section-y) var(--cf-gutter); border-bottom:1px solid #241d16;">
     <div style="position:absolute; left:-5%; right:-5%; top:30%; height:220px; background:#ff7a1a; opacity:.1; transform:skewY(-5deg);"></div>
     <div style="position:relative; display:flex; flex-direction:column; align-items:center; text-align:center; gap:clamp(20px,2.2vw,30px);">
       <div style="display:flex; align-items:center; gap:14px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:#ff7a1a;">
@@ -577,7 +591,7 @@
 
   <!-- FOOTER -->
   <div class="cf-footer" style="display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; padding:30px var(--cf-gutter); border-top:1px solid #241d16; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; color:#6f665a; text-transform:uppercase;">
-    <span>&copy; 2026 {{ devName }} &mdash; CrashFest</span>
+    <span>&copy; 2026 <a href="{{ siteUrl }}" target="_blank" style="color:#8b8172;">{{ devName }}</a> &mdash; CrashFest</span>
     <div style="display:flex; gap:24px; flex-wrap:wrap;">
       <sc-if value="{{ hasSteam }}" hint-placeholder-val="{{ false }}">
         <a href="{{ steamUrl }}" target="_blank" style="color:#6f665a;">Steam</a>
@@ -590,7 +604,7 @@
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;youtubeId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;NZIpeUda-Co&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;trailerSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;steamUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;discordUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://discord.gg/H99fuk3yuH&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;siteUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;devName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Menno van Hout&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;contactUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://mennovanhout.nl/contact&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;price&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;€19,99&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;releaseLine&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Coming soon to Steam&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;youtubeId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;NZIpeUda-Co&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;trailerSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;steamUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;discordUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://discord.gg/H99fuk3yuH&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;siteUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://mennovanhout.nl&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;devName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Menno van Hout&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;contactUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://mennovanhout.nl/contact&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;price&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;€19,99&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;releaseLine&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Coming soon to Steam&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 class Component extends DCLogic {
   renderVals() {
     const p = this.props;
@@ -627,7 +641,7 @@ class Component extends DCLogic {
       ctaUrl: hasSteam ? steamUrl : discordUrl,
       ctaLabel: hasSteam ? "WISHLIST ON STEAM" : "JOIN THE DISCORD",
       discordUrl,
-      siteUrl: p.siteUrl ?? "#",
+      siteUrl: p.siteUrl ?? "https://mennovanhout.nl",
       contactUrl: p.contactUrl ?? "https://mennovanhout.nl/contact",
       devName: p.devName ?? "Menno van Hout",
       price,
