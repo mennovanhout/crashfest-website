@@ -123,6 +123,28 @@
     .cf-hero { min-height:0 !important; padding:clamp(56px,11vw,88px) 0 clamp(92px,18vw,128px) !important; }
     .cf-hero-stats { right:var(--cf-gutter); flex-wrap:wrap !important; gap:9px 20px !important; }
   }
+  /* ── Power-ups ───────────────────────────────────────────────────────
+     Seven cards on a 12-column track: four across, then three wider ones,
+     same flush-rows trick as the modes grid. The crate sits in its own
+     feature row above, since it is where the other seven come from. */
+  .cf-crate { display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:clamp(22px,3vw,46px); align-items:center; }
+  .cf-pu { grid-column:span 3; }
+  .cf-pu:nth-child(n+5) { grid-column:span 4; }
+  /* Cards lift and their render leans in; the whole card is the hover
+     target so the effect never depends on hitting the image itself. */
+  .cf-pu { transition:transform .18s ease, border-color .18s ease; }
+  .cf-pu:hover { transform:translateY(-5px); border-color:#4a3c2c !important; }
+  .cf-pu-img { transition:transform .28s ease; }
+  .cf-pu:hover .cf-pu-img { transform:scale(1.07) rotate(-2.5deg); }
+  @media (max-width:1500px) {
+    .cf-pus { grid-template-columns:repeat(2,1fr) !important; }
+    .cf-pu, .cf-pu:nth-child(n+5) { grid-column:span 1; }
+    .cf-pu:nth-child(7) { grid-column:span 2; }
+  }
+  @media (max-width:900px) {
+    .cf-crate { grid-template-columns:1fr !important; }
+  }
+
   /* ── One-copy numbers ────────────────────────────────────────────────
      Three cells divided by hairlines; the dividers flip from vertical to
      horizontal when the row becomes a column. */
@@ -135,6 +157,8 @@
     .cf-modes { grid-template-columns:1fr !important; }
     /* A span-2 card on a single-column grid would invent a second column. */
     .cf-mode:nth-child(5) { grid-column:span 1; }
+    .cf-pus { grid-template-columns:1fr !important; }
+    .cf-pu:nth-child(7) { grid-column:span 1; }
     .cf-onecopy { grid-template-columns:1fr; }
     .cf-onecopy > div { border-left:0; border-top:1px solid #241d16; }
     .cf-onecopy > div:first-child { border-top:0; }
@@ -295,6 +319,58 @@
         <div style="position:absolute; left:0; bottom:0; background:#14100d; color:#f4efe7; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; padding:11px 16px 9px; text-transform:uppercase;">Builder &mdash; Whiteout</div>
       </div>
     </div>
+  </div>
+
+  <!-- POWER-UPS -->
+  <div id="arsenal" style="position:relative; overflow:hidden; padding:var(--cf-section-y) var(--cf-gutter); display:flex; flex-direction:column; gap:clamp(30px,3.4vw,44px); border-bottom:1px solid #241d16; background:#0f0c09;">
+    <div style="position:absolute; left:-5%; right:-5%; top:0; height:200px; background:#ff7a1a; opacity:.06; transform:skewY(-4deg);"></div>
+
+    <div style="position:relative; display:flex; align-items:flex-end; justify-content:space-between; gap:30px; flex-wrap:wrap;">
+      <div style="display:flex; flex-direction:column; gap:clamp(14px,1.5vw,20px);">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.24em; color:#ff7a1a; text-transform:uppercase;">The arsenal</span>
+        <h2 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(34px,5vw,64px); line-height:.9; text-transform:uppercase; transform:skewX(-6deg);">One slot. <span style="color:#ff7a1a;">Eight bad ideas.</span></h2>
+      </div>
+      <p style="margin:0; max-width:520px; font-size:clamp(16px,1.48vw,19px); line-height:1.45; color:#b7ac9c; text-wrap:pretty;">You carry exactly one power-up at a time. Driving through a crate is therefore a decision, not a freebie &mdash; whatever you were saving for the last corner is gone the moment you touch a new one.</p>
+    </div>
+
+    <!-- The crate: where the other seven come from -->
+    <div class="cf-crate" style="position:relative; border:1px solid #2c241b; background:#14100d; padding:clamp(22px,2.6vw,36px);">
+      <div style="position:absolute; top:0; left:0; right:0; height:5px; background:linear-gradient(90deg,#e03b2f,#ff7a1a,#f2c14e,#7ec96a,#2f7fe0,#b06ae0);"></div>
+      <div style="position:relative; display:flex; align-items:center; justify-content:center; min-height:clamp(150px,17vw,210px); background:radial-gradient(circle at 50% 48%, rgba(255,122,26,.16), rgba(255,122,26,0) 70%);">
+        <img class="cf-pu-img" src="./assets/powerups/crate.png" alt="Low-poly render of a CrashFest power-up crate" width="384" height="384" loading="lazy" decoding="async" style="display:block; width:clamp(120px,14vw,190px); height:auto;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; background:#ff7a1a; color:#14100d; padding:5px 9px 3px;">Pickup</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#6f665a;">Rows of three, cycling the rainbow</span>
+        </div>
+        <h3 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(26px,2.8vw,38px); text-transform:uppercase;">Crate</h3>
+        <p style="margin:0; font-size:clamp(17px,1.56vw,21px); line-height:1.4; color:#f4efe7;">Drive through it and you get one of the rest.</p>
+        <p style="margin:0; font-size:clamp(15px,1.33vw,17px); line-height:1.5; color:#8b8172; max-width:620px;">Crates come back a few seconds after they are taken &mdash; a race that runs out of weapons in the first thirty seconds stops being a fight.</p>
+      </div>
+    </div>
+
+    <div class="cf-pus" style="position:relative; display:grid; grid-template-columns:repeat(12,1fr); gap:24px;">
+      <sc-for list="{{ powerUps }}" as="pu" hint-placeholder-count="7">
+        <div class="cf-pu" style="position:relative; background:#14100d; border:1px solid #2c241b; display:flex; flex-direction:column;">
+          <div style="position:absolute; top:0; left:0; right:0; height:5px; background:{{ pu.color }}; z-index:1;"></div>
+          <div style="position:relative; display:flex; align-items:center; justify-content:center; min-height:clamp(148px,15vw,200px); border-bottom:1px solid #241d16; overflow:hidden; background:radial-gradient(circle at 50% 46%, {{ pu.glow }}, rgba(0,0,0,0) 72%);">
+            <img class="cf-pu-img" src="{{ pu.icon }}" alt="{{ pu.alt }}" width="384" height="384" loading="lazy" decoding="async" style="display:block; width:clamp(104px,11vw,150px); height:auto;">
+          </div>
+          <div style="display:flex; flex-direction:column; gap:11px; padding:22px 26px 26px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase;">
+              <span style="color:{{ pu.color }};">{{ pu.kind }}</span>
+              <span style="color:#6f665a;">{{ pu.arrow }} {{ pu.target }}</span>
+            </div>
+            <h3 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(22px,2.03vw,28px); text-transform:uppercase; line-height:1;">{{ pu.name }}</h3>
+            <p style="margin:0; font-size:clamp(16px,1.4vw,19px); line-height:1.35; color:#f4efe7;">{{ pu.tagline }}</p>
+            <p style="margin:0; font-size:clamp(14px,1.17vw,16px); line-height:1.5; color:#8b8172;">{{ pu.text }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <span style="position:relative; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; color:#6f665a; text-transform:uppercase;">Mines and tire stacks are never cleared mid-race &middot; by round four the track remembers everything</span>
   </div>
 
   <!-- COUCH -->
@@ -483,6 +559,60 @@ class Component extends DCLogic {
         { slot: "P4", name: "Bot — Hard", color: "#f2c14e", state: "Ready", stateColor: "#7ec96a" },
         { slot: "P5", name: "Remote", color: "#b06ae0", state: "Streaming in", stateColor: "#2f7fe0" },
         { slot: "P6", name: "Open seat", color: "#3a3025", state: "Press A", stateColor: "#6f665a" }
+      ],
+      // Power-ups mirror Assets/Images/PowerUps/powerups.json — taglines and
+      // copy are that file's, the colour/arrow pair is this page's read of
+      // "kind" and "target". The crate is rendered separately above these.
+      powerUps: [
+        {
+          id: "shotgun", name: "Shotgun", kind: "Offensive", target: "Beside you", arrow: "↔",
+          color: "#e03b2f", glow: "rgba(224,59,47,.16)",
+          icon: "./assets/powerups/shotgun.png", alt: "Low-poly render of the CrashFest shotgun power-up",
+          tagline: "Both barrels, both sides, at once.",
+          text: "Deliberately not aimable. It fires left and right together and throws anything caught alongside sideways, so the skill is in the timing rather than the aim. Bots hold on to it until somebody is actually beside them."
+        },
+        {
+          id: "missile", name: "Homing Missile", kind: "Offensive", target: "Ahead of you", arrow: "↑",
+          color: "#e03b2f", glow: "rgba(224,59,47,.16)",
+          icon: "./assets/powerups/missile.png", alt: "Low-poly render of the CrashFest homing missile power-up",
+          tagline: "Launches forward and steers itself.",
+          text: "It picks the nearest car in front, re-aims in flight if that changes, and delivers a landmine's payload on contact. The one weapon you never have to aim, which is why a bot fires it the moment it has one."
+        },
+        {
+          id: "landmine", name: "Landmine", kind: "Offensive", target: "Behind you", arrow: "↓",
+          color: "#e03b2f", glow: "rgba(224,59,47,.16)",
+          icon: "./assets/powerups/landmine.png", alt: "Low-poly render of the CrashFest landmine power-up",
+          tagline: "Dropped behind you. Arms, then throws the next car straight up.",
+          text: "It waits a moment before it arms, so you do not blow yourself up laying it, and then it stays there. Mines are never cleared during a race — by the fourth round a track is visibly a place where three races have already happened."
+        },
+        {
+          id: "barrier", name: "Barrier", kind: "Offensive", target: "Behind you", arrow: "↓",
+          color: "#e03b2f", glow: "rgba(224,59,47,.16)",
+          icon: "./assets/powerups/barrier.png", alt: "Low-poly render of the CrashFest barrier power-up",
+          tagline: "You go through it. It costs you your speed.",
+          text: "Not a wall — a wall at racing speed either bounces a car off like a building or launches it. This shatters, and holds your speed down while it climbs back. About seven tenths of a second and sixty-odd metres at full pace, which is several places."
+        },
+        {
+          id: "tires", name: "Tire Stack", kind: "Offensive", target: "Behind you", arrow: "↓",
+          color: "#e03b2f", glow: "rgba(224,59,47,.16)",
+          icon: "./assets/powerups/tires.png", alt: "Low-poly render of the CrashFest tire stack power-up",
+          tagline: "Solid, permanent, and it bounces you off hard.",
+          text: "The opposite of the barrier: that one costs you time, this one costs you your line. You do not go through it at all. It never breaks and it never goes away, so a well-placed stack changes the corner for the rest of the race."
+        },
+        {
+          id: "tow", name: "Tow", kind: "Utility", target: "Yourself", arrow: "●",
+          color: "#f2c14e", glow: "rgba(242,193,78,.15)",
+          icon: "./assets/powerups/tow.png", alt: "Low-poly render of the CrashFest tow power-up",
+          tagline: "Reels you in toward the car in front.",
+          text: "It does nothing to them — it moves you. A catch-up tool rather than a weapon, and the only one that rewards being behind. With nobody ahead it still fires, as a straight yank forward."
+        },
+        {
+          id: "shield", name: "Shield", kind: "Defensive", target: "Yourself", arrow: "●",
+          color: "#2f7fe0", glow: "rgba(47,127,224,.17)",
+          icon: "./assets/powerups/shield.png", alt: "Low-poly render of the CrashFest shield power-up",
+          tagline: "Eats the next thing that would hit you.",
+          text: "A blue bubble that absorbs one hit — a shotgun blast, a mine, a missile, a barrier, or a shunt from another car — and then breaks. The only power-up you can hold without threatening anybody, and the only one worth saving."
+        }
       ],
       facts: [
         { big: "6", label: "Players, local" },
