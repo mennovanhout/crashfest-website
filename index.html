@@ -90,6 +90,93 @@
   @keyframes cfBob { 0%{transform:translateY(0)} 50%{transform:translateY(-8px)} 100%{transform:translateY(0)} }
   @keyframes cfSheen { 0%{transform:translateX(-140%) skewX(-18deg)} 100%{transform:translateX(420%) skewX(-18deg)} }
   @keyframes cfBlink { 0%,60%{opacity:1} 61%,100%{opacity:.2} }
+  /* Reveal uses `translate`, not `transform`: an animation with fill-mode
+     both keeps its end frame applied forever, which would outrank the
+     hover transforms below. The two properties compose instead of fight. */
+  @keyframes cfRise { from { opacity:0; translate:0 28px; } to { opacity:1; translate:0 0; } }
+
+  /* ── Interaction ─────────────────────────────────────────────────────
+     Everything in this block is decoration: hover and press states, and
+     scroll-driven reveals where the browser has them. Nothing here is
+     needed to read or operate the page, so browsers missing view()
+     timelines simply get the static layout, and anyone asking for less
+     motion gets the switch-off at the bottom.
+
+     Hover rules sit behind (hover:hover) so a tap on a phone does not
+     leave a card stuck in its lifted state. */
+  @media (hover:hover) {
+    /* Primary buttons press like a physical thing: they lift off their
+       hard red shadow, then sit back down on :active. */
+    .cf-btn, .cf-nav-cta { transition:transform .16s ease, box-shadow .16s ease; }
+    .cf-btn:hover, .cf-nav-cta:hover { transform:translate(-3px,-3px); box-shadow:6px 6px 0 rgba(224,59,47,.5); }
+    .cf-btn:active, .cf-nav-cta:active { transform:translate(0,0); box-shadow:none; transition-duration:.05s; }
+
+    .cf-btn-ghost { transition:transform .16s ease, border-color .16s ease, background .16s ease; }
+    .cf-btn-ghost:hover { transform:translateY(-3px); border-color:#ff7a1a; background:rgba(255,122,26,.09); }
+    .cf-btn-ghost:active { transform:translateY(0); transition-duration:.05s; }
+
+    /* Nav links grow an underline from the left. */
+    .cf-nav-links a { position:relative; transition:color .18s ease; }
+    .cf-nav-links a::after { content:""; position:absolute; left:0; right:0; bottom:-6px; height:2px; background:#ff7a1a; transform:scaleX(0); transform-origin:left; transition:transform .22s ease; }
+    .cf-nav-links a:hover { color:#f4efe7; }
+    .cf-nav-links a:hover::after { transform:scaleX(1); }
+    .cf-footer a { transition:color .18s ease; }
+
+    /* Mode cards lift and their accent bar thickens. */
+    .cf-mode { transition:transform .18s ease, border-color .18s ease; }
+    .cf-mode:hover { transform:translateY(-5px); border-color:#4a3c2c !important; }
+    .cf-mode > div:first-child { transition:height .18s ease; }
+    .cf-mode:hover > div:first-child { height:9px !important; }
+
+    /* Cards lift and their render leans in; the whole card is the hover
+       target so the effect never depends on hitting the image itself. */
+    .cf-pu { transition:transform .18s ease, border-color .18s ease; }
+    .cf-pu:hover { transform:translateY(-5px); border-color:#4a3c2c !important; }
+    .cf-pu-img { transition:transform .28s ease; }
+    .cf-pu:hover .cf-pu-img { transform:scale(1.07) rotate(-2.5deg); }
+    .cf-crate:hover .cf-pu-img { transform:scale(1.05) rotate(2deg); }
+
+    /* Screenshots push in slowly and their caption goes orange. */
+    .cf-shot img { transition:transform .5s ease; }
+    .cf-shot:hover img { transform:scale(1.05); }
+    .cf-shot > div:last-child { transition:background .2s ease, color .2s ease; }
+    .cf-shot:hover > div:last-child { background:#ff7a1a !important; color:#14100d !important; }
+
+    /* Lobby seats and the stat tiles. */
+    .cf-seats > div { transition:transform .18s ease, border-color .18s ease; }
+    .cf-seats > div:hover { transform:translateY(-4px); border-color:#4a3c2c !important; }
+    .cf-facts > div, .cf-onecopy > div { transition:background .2s ease; }
+    .cf-facts > div:hover, .cf-onecopy > div:hover { background:#14100d; }
+    .cf-onecopy > div:hover { background:#1a140e; }
+    .cf-facts > div span:first-child, .cf-onecopy > div span:first-child { transition:transform .2s ease; }
+    .cf-facts > div:hover span:first-child, .cf-onecopy > div:hover span:first-child { transform:translateY(-3px); }
+
+    /* Spec rows and pills. */
+    .cf-spec { transition:background .15s ease; }
+    .cf-spec:hover { background:#191309; }
+    .cf-pill { transition:transform .18s ease, border-color .18s ease, color .18s ease; }
+    .cf-pill:hover { transform:translateY(-2px); border-color:#ff7a1a !important; color:#f4efe7 !important; }
+    .cf-badge { transition:transform .18s ease, background .18s ease; }
+    .cf-badge:hover { transform:translateX(4px); background:rgba(20,16,13,.92) !important; }
+  }
+
+  /* Keyboard users get the same affordance as the mouse. */
+  a:focus-visible { outline:3px solid #ff7a1a; outline-offset:3px; }
+
+  @supports (animation-timeline:view()) {
+    @media (prefers-reduced-motion:no-preference) {
+      .cf-mode, .cf-pu, .cf-crate, .cf-shot, .cf-seats > div, .cf-facts > div, .cf-onecopy > div, .cf-spec {
+        animation:cfRise linear both;
+        animation-timeline:view();
+        animation-range:entry 4% entry 42%;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion:reduce) {
+    html { scroll-behavior:auto; }
+    *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+  }
 
   /* ── Responsive ──────────────────────────────────────────────────────
      Type and spacing are fluid via clamp() in the inline styles, so only
@@ -130,12 +217,6 @@
   .cf-crate { display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:clamp(22px,3vw,46px); align-items:center; }
   .cf-pu { grid-column:span 3; }
   .cf-pu:nth-child(n+5) { grid-column:span 4; }
-  /* Cards lift and their render leans in; the whole card is the hover
-     target so the effect never depends on hitting the image itself. */
-  .cf-pu { transition:transform .18s ease, border-color .18s ease; }
-  .cf-pu:hover { transform:translateY(-5px); border-color:#4a3c2c !important; }
-  .cf-pu-img { transition:transform .28s ease; }
-  .cf-pu:hover .cf-pu-img { transform:scale(1.07) rotate(-2.5deg); }
   @media (max-width:1500px) {
     .cf-pus { grid-template-columns:repeat(2,1fr) !important; }
     .cf-pu, .cf-pu:nth-child(n+5) { grid-column:span 1; }
@@ -213,14 +294,14 @@
       <h1 style="margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(40px,9.85vw,126px); line-height:.86; letter-spacing:-.03em; text-transform:uppercase; transform:skewX(-6deg); text-shadow:.064em .064em 0 rgba(224,59,47,.5);">Crash<span style="color:#ff7a1a;">fest</span></h1>
       <p style="margin:0; max-width:620px; font-size:clamp(18px,2.03vw,26px); line-height:1.35; color:#d8cfc2; text-wrap:pretty;">Six friends. One couch. One shrinking arena and a very deep hole. Shove, drift and t&#8209;bone your way to the last car standing &mdash; then build the track that decides the rematch.</p>
       <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap; padding-top:8px;">
-        <a href="{{ ctaUrl }}" target="_blank" style="position:relative; overflow:hidden; display:flex; align-items:center; gap:clamp(9px,1.1vw,14px); background:#ff7a1a; color:#14100d; padding:clamp(15px,1.56vw,20px) clamp(18px,2.34vw,30px) clamp(12px,1.33vw,17px); font-family:'Archivo Black',sans-serif; font-size:clamp(17px,1.88vw,24px); letter-spacing:.03em;">
+        <a class="cf-btn" href="{{ ctaUrl }}" target="_blank" style="position:relative; overflow:hidden; display:flex; align-items:center; gap:clamp(9px,1.1vw,14px); background:#ff7a1a; color:#14100d; padding:clamp(15px,1.56vw,20px) clamp(18px,2.34vw,30px) clamp(12px,1.33vw,17px); font-family:'Archivo Black',sans-serif; font-size:clamp(17px,1.88vw,24px); letter-spacing:.03em;">
           <span style="position:absolute; top:0; bottom:0; left:0; width:60px; background:rgba(255,255,255,.35); animation:cfSheen 3.4s infinite;"></span>
           <span style="position:relative;">{{ ctaLabel }}</span>
           <sc-if value="{{ hasSteam }}" hint-placeholder-val="{{ false }}">
             <span style="position:relative; font-family:'JetBrains Mono',monospace; font-size:clamp(12px,1.17vw,15px); letter-spacing:.1em; background:#14100d; color:#ff7a1a; padding:6px 9px 4px;">{{ price }}</span>
           </sc-if>
         </a>
-        <a href="#trailer" style="display:flex; align-items:center; gap:11px; border:1px solid #3a3025; color:#f4efe7; padding:clamp(14px,1.48vw,19px) clamp(17px,2.03vw,26px) clamp(11px,1.25vw,16px); font-family:'Archivo Black',sans-serif; font-size:clamp(14px,1.48vw,19px); letter-spacing:.03em;">
+        <a class="cf-btn-ghost" href="#trailer" style="display:flex; align-items:center; gap:11px; border:1px solid #3a3025; color:#f4efe7; padding:clamp(14px,1.48vw,19px) clamp(17px,2.03vw,26px) clamp(11px,1.25vw,16px); font-family:'Archivo Black',sans-serif; font-size:clamp(14px,1.48vw,19px); letter-spacing:.03em;">
           <span style="width:0; height:0; border-left:11px solid #ff7a1a; border-top:7px solid transparent; border-bottom:7px solid transparent; margin-bottom:2px;"></span>
           <span>WATCH THE TEASER</span>
         </a>
@@ -232,7 +313,7 @@
           </sc-if>
         </div>
       </div>
-      <a href="#onecopy" style="display:flex; align-items:center; gap:clamp(12px,1.4vw,18px); flex-wrap:wrap; align-self:flex-start; background:rgba(20,16,13,.72); border-left:5px solid #ff7a1a; padding:clamp(12px,1.25vw,16px) clamp(15px,1.56vw,20px) clamp(10px,1.1vw,14px); color:#f4efe7;">
+      <a class="cf-badge" href="#onecopy" style="display:flex; align-items:center; gap:clamp(12px,1.4vw,18px); flex-wrap:wrap; align-self:flex-start; background:rgba(20,16,13,.72); border-left:5px solid #ff7a1a; padding:clamp(12px,1.25vw,16px) clamp(15px,1.56vw,20px) clamp(10px,1.1vw,14px); color:#f4efe7;">
         <span style="font-family:'Archivo Black',sans-serif; font-size:clamp(15px,1.56vw,20px); letter-spacing:.02em; text-transform:uppercase;">One copy. <span style="color:#ff7a1a;">Everybody plays.</span></span>
         <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#a89c8c;">Friends join free on Remote Play</span>
       </a>
@@ -383,10 +464,10 @@
         <p style="margin:0; font-size:clamp(17px,1.64vw,21px); line-height:1.45; color:#b7ac9c; max-width:520px;">Plug in six controllers and go. Nobody makes an account, nobody downloads anything, nobody waits in a lobby queue. Short on humans? Fill the empty seats with bots on four difficulty settings.</p>
         <p style="margin:0; font-size:clamp(17px,1.64vw,21px); line-height:1.45; color:#b7ac9c; max-width:520px;">Friends on the wrong side of the country still play: Steam Remote Play Together streams the whole party from your machine &mdash; they only need a controller.</p>
         <div style="display:flex; flex-wrap:wrap; gap:10px; padding-top:6px;">
-          <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Drop-in / drop-out</span>
-          <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Bots, 4 difficulties</span>
-          <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Remote Play Together</span>
-          <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Split-screen free</span>
+          <span class="cf-pill" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Drop-in / drop-out</span>
+          <span class="cf-pill" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Bots, 4 difficulties</span>
+          <span class="cf-pill" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Remote Play Together</span>
+          <span class="cf-pill" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Split-screen free</span>
         </div>
       </div>
       <div class="cf-seats" style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
@@ -454,22 +535,22 @@
       <div style="display:flex; flex-direction:column; gap:12px; padding-top:10px; border-top:1px solid #241d16; margin-top:4px; max-width:560px;">
         <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.2em; color:#6f665a; text-transform:uppercase;">Built with</span>
         <div style="display:flex; flex-wrap:wrap; gap:10px;">
-          <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Unity &mdash; code &amp; physics</span>
-          <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Claude AI &mdash; art &amp; visuals</span>
-          <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Suno AI &mdash; soundtrack</span>
+          <span class="cf-pill" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Unity &mdash; code &amp; physics</span>
+          <span class="cf-pill" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Claude AI &mdash; art &amp; visuals</span>
+          <span class="cf-pill" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#a89c8c; padding:9px 13px 7px;">Suno AI &mdash; soundtrack</span>
         </div>
       </div>
 
       <div style="display:flex; gap:12px; flex-wrap:wrap; padding-top:6px;">
-        <a href="{{ contactUrl }}" target="_blank" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#f4efe7; padding:12px 16px 10px;">Contact</a>
-        <a href="{{ discordUrl }}" target="_blank" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#f4efe7; padding:12px 16px 10px;">Discord</a>
-        <a href="{{ siteUrl }}" target="_blank" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#f4efe7; padding:12px 16px 10px;">Devlog</a>
+        <a href="{{ contactUrl }}" target="_blank" class="cf-pill" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#f4efe7; padding:12px 16px 10px;">Contact</a>
+        <a href="{{ discordUrl }}" target="_blank" class="cf-pill" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#f4efe7; padding:12px 16px 10px;">Discord</a>
+        <a href="{{ siteUrl }}" target="_blank" class="cf-pill" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; border:1px solid #3a3025; color:#f4efe7; padding:12px 16px 10px;">Devlog</a>
       </div>
     </div>
     <div style="display:flex; flex-direction:column; gap:0; border:1px solid #2c241b; background:#14100d; align-self:start;">
       <div style="padding:16px 22px 14px; border-bottom:1px solid #2c241b; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.18em; color:#6f665a; text-transform:uppercase;">Spec sheet</div>
       <sc-for list="{{ specs }}" as="spec" hint-placeholder-count="11">
-        <div style="display:flex; justify-content:space-between; gap:20px; padding:15px 22px; border-bottom:1px solid #201a14; font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.06em;">
+        <div class="cf-spec" style="display:flex; justify-content:space-between; gap:20px; padding:15px 22px; border-bottom:1px solid #201a14; font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.06em;">
           <span style="color:#6f665a; text-transform:uppercase;">{{ spec.k }}</span>
           <span style="color:#f4efe7; text-align:right;">{{ spec.v }}</span>
         </div>
@@ -481,7 +562,7 @@
   <div style="position:relative; overflow:hidden; padding:clamp(64px,8.6vw,110px) var(--cf-gutter); display:flex; flex-direction:column; align-items:center; gap:clamp(20px,2.2vw,28px); text-align:center; background:#14100d;">
     <div style="position:absolute; left:-5%; right:-5%; top:26%; height:200px; background:#ff7a1a; opacity:.12; transform:skewY(-5deg);"></div>
     <h2 style="position:relative; margin:0; font-family:'Archivo Black',sans-serif; font-size:clamp(34px,6.4vw,82px); line-height:.9; text-transform:uppercase; transform:skewX(-6deg); max-width:1100px;">Gather the <span style="color:#ff7a1a;">idiots</span>. Plug in the pads.</h2>
-    <a href="{{ ctaUrl }}" target="_blank" style="position:relative; overflow:hidden; display:flex; align-items:center; gap:clamp(10px,1.25vw,16px); background:#ff7a1a; color:#14100d; padding:clamp(16px,1.72vw,22px) clamp(20px,2.81vw,36px) clamp(13px,1.4vw,18px); font-family:'Archivo Black',sans-serif; font-size:clamp(19px,2.19vw,28px); letter-spacing:.03em; animation:cfBob 3.2s ease-in-out infinite;">
+    <a class="cf-btn" href="{{ ctaUrl }}" target="_blank" style="position:relative; overflow:hidden; display:flex; align-items:center; gap:clamp(10px,1.25vw,16px); background:#ff7a1a; color:#14100d; padding:clamp(16px,1.72vw,22px) clamp(20px,2.81vw,36px) clamp(13px,1.4vw,18px); font-family:'Archivo Black',sans-serif; font-size:clamp(19px,2.19vw,28px); letter-spacing:.03em; animation:cfBob 3.2s ease-in-out infinite;">
       <span style="position:absolute; top:0; bottom:0; left:0; width:70px; background:rgba(255,255,255,.35); animation:cfSheen 3.4s infinite;"></span>
       <span style="position:relative;">{{ ctaLabel }}</span>
       <sc-if value="{{ hasSteam }}" hint-placeholder-val="{{ false }}">
